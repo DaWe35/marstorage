@@ -153,6 +153,7 @@ http_request.onreadystatechange = function() {
     for (i = 0; i < jsonObj.length; i++) {
       files[i] = {name: jsonObj[i].name, type: jsonObj[i].type, size: jsonObj[i].size, date: jsonObj[i].date, path: jsonObj[i].path, url: jsonObj[i].url, status: jsonObj[i].status};
     }
+    getdata();
   }
 }
 http_request.open("GET", "data.json", true);
@@ -317,7 +318,6 @@ function submit(path) {
   }
   getdata(path, path);
 }
-window.onload = getdata;
 
   function change_checkboxes(e, t) {
       for (var n = e.length - 1; n >= 0; n--) e[n].checked = "boolean" == typeof t ? t : !e[n].checked
