@@ -1,0 +1,6 @@
+[
+    {"name":"teszt", "type":"Folder", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
+    {"name":"teszt1", "type":"txt", "size":8, "date":1588126140, "path":"", "url":"", "status":""},
+    {"name":"teszt2", "type":"txt", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
+    {"name":"teszt3", "type":"txt", "size":17, "date":1588126140, "path":"teszt", "url":"", "status":""}
+]
