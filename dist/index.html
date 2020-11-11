@@ -225,7 +225,7 @@ http_request.send();
 function getdata(getname = "", getpath = "", getstatus = "") {
     var tbody = "";
     var tbodypart = "";
-    if(getpath !== "") {
+    if (getpath !== "") {
         tbody = `<tr><td></td><td colspan="6"><a href="javascript:getdata(${name}, ${path})"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
     }
     for (i = 0; i < files.length; i++) {
@@ -234,13 +234,13 @@ function getdata(getname = "", getpath = "", getstatus = "") {
         var date = files[i]["date"];
         var path = files[i]["path"];
         var url = files[i]["url"];
-        if(getstatus === "delete") {
-          if(getname === name && getpath === path) {
+        if (getstatus === "delete") {
+          if (getname === name && getpath === path) {
             files[i]["status"] = "delete";
           }
         }
-        if(getstatus === "rename") {
-          if(getname === name && getpath === path) {
+        if (getstatus === "rename") {
+          if (getname === name && getpath === path) {
             var newname = prompt("New name");
             files[i]["name"] = newname;
           }
@@ -285,7 +285,7 @@ function getdata(getname = "", getpath = "", getstatus = "") {
                     </td>
                 </tr>`;
                 tbody += tbodypart;
-            }else{
+            } else {
                 tbodypart =
                 `<tr>
                     <td>
@@ -295,7 +295,7 @@ function getdata(getname = "", getpath = "", getstatus = "") {
                     </td>
                     <td>
                         <div class="filename">
-                            <a href="javascript:getdata(${name}, ${path})" title="File info"><i class="fa fa-file-text-o"></i> ${name}.${type}</a>
+                            <a href="${url}" title="File info"><i class="fa fa-file-text-o"></i> ${name}.${type}</a>
                         </div>
                     </td>
                     <td><span title="8 bytes">${size} B</span></td>
@@ -373,14 +373,15 @@ function submit(path) {
   var all = document.getElementById("file");
   for (var i = 0; i < all.files.length; i++) {
     var file = all.files[i];
-    window.createWebPage(file);
-    var fileurl = document.getElementById('link').href;
-    var filename = file["name"].split('.').slice(0, -1).join('.');
-    var filetype = file["name"].split('.').pop();
-    var length = files.length;
-    files[length] = {name: filename, type: filetype, size: file["size"], date: Date.now(), path: path, url: fileurl, status: ""};
+    window.uploadSkyfile(file, function(skylink) {
+      var fileurl = skylink;
+      var filename = file["name"].split('.').slice(0, -1).join('.');
+      var filetype = file["name"].split('.').pop();
+      var length = files.length;
+      files[length] = {name: filename, type: filetype, size: file["size"], date: Date.now(), path: path, url: fileurl, status: ""};
+      getdata(path, path);
+    });
   }
-  getdata(path, path);
 }
 
   function change_checkboxes(e, t) {

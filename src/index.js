@@ -2,13 +2,11 @@ import { SkynetClient } from "skynet-js";
 
 const client = new SkynetClient();
 
-window.createWebPage = function (file) {
+window.uploadSkyfile = async function (file, callback) {
   try {
-    (async () => {
-      const skylink = await client.uploadFile(file);
-      const directLink = '/' + skylink.replace('sia:', '') + '/';
-      document.getElementById('link').href = directLink;
-    })()
+    const skylink = await client.uploadFile(file);
+    const directLink = '/' + skylink.replace('sia:', '') + '/';
+    callback(directLink);
   } catch (error) {
     alert(error)
   }
