@@ -15,15 +15,15 @@
 	<nav class="navbar navbar-expand-lg fixed-top navbar-transparent " color-on-scroll="100">
 		<div class="container">
 			<div class="navbar-translate">
-				<a class="navbar-brand" href="javascript:void(0);" rel="tooltip" title="Go to homepage" data-placement="bottom"> <span>MARS</span>torage </a>
+				<a class="navbar-brand" href="/" rel="tooltip" title="Go to homepage" data-placement="bottom"> <span>MARS</span>torage </a>
 				<button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-bar bar1"></span> <span class="navbar-toggler-bar bar2"></span> <span class="navbar-toggler-bar bar3"></span> </button>
 			</div>
 			<div class="collapse navbar-collapse justify-content-end" id="navigation">
 				<div class="navbar-collapse-header">
 					<div class="row">
-						<div class="col-6 collapse-brand"> <a>
-              MARStorage
-            </a> </div>
+						<div class="col-6 collapse-brand">
+							<a>MARStorage</a>
+						</div>
 						<div class="col-6 collapse-close text-right">
 							<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation"> <i class="tim-icons icon-simple-remove"></i> </button>
 						</div>
@@ -70,7 +70,7 @@
             </h1>
             <p class="text-white mb-3">All files are encrypted in your browser and stored on the decentralized Sia Skynet</p>
             <div class="btn-wrapper mb-3">
-              <p class="category text-success d-inline"><a href="javascript:login();">Login/register with SkyID</a></p>
+              <p class="category text-success d-inline"><a href="#" onmousedown="login();">Login/register with SkyID</a></p>
             </div>
           </div>
           <div class="col-lg-4 col-md-5">
@@ -85,7 +85,7 @@
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<div class="navbar-nav float-rightd ml-auto">
-					<li class="nav-item"><a class="nav-link mx-1" title="Upload files" href="javascript:getdata('','','upload')"><i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i> Upload Files</a></li>
+					<li class="nav-item"><a class="nav-link mx-1" title="Upload files" href="#" onmousedown="getdata('','','upload')"><i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i> Upload Files</a></li>
 				</div>
 			</div>
 		</nav>
@@ -125,7 +125,7 @@
 			<div class="mb-5 row">
 				<div class="col-sm-9 offset-sm-3"><a href="#/select-all" class="mt-2 mt-sm-0 btn2 btn btn-small btn-outline-primary" onclick="select_all();return false;"><i class="fa fa-check-square"></i> Select all</a> &nbsp; <a href="#/unselect-all" class="mt-2 mt-sm-0 btn2 btn btn-small btn-outline-primary" onclick="unselect_all();return false;"><i class="fa fa-window-close"></i> Unselect all</a> &nbsp; <a href="#/invert-all" class="mt-2 mt-sm-0 btn2 btn btn-small btn-outline-primary" onclick="invert_all();return false;"><i class="fa fa-th-list"></i> Invert selection</a> &nbsp;
 					<input type="submit" class="hidden" name="delete" id="a-delete" value="Delete" onclick="return confirm('Delete selected files and folders?')"> <a href="javascript:document.getElementById('a-delete').click();" class="mt-2 mt-sm-0 btn2 btn btn-small btn-outline-primary"><i class="fa fa-trash"></i> Delete </a> &nbsp;
-					<input type="submit" class="hidden" name="copy" id="a-copy" value="Copy"> <a href="javascript:document.getElementById('a-copy').click();" class="mt-2 mt-sm-0 btn2 btn btn-small btn-outline-primary"><i class="fa fa-files-o"></i> Copy </a> </div>
+					<input type="submit" class="hidden" name="copy" id="a-copy" value="Copy"> <a href="#" onmousedown="document.getElementById('a-copy').click()" class="mt-2 mt-sm-0 btn2 btn btn-small btn-outline-primary"><i class="fa fa-files-o"></i> Copy </a> </div>
 			</div>
 		</form>
 		<a id="link" href=""></a>
@@ -215,7 +215,7 @@
 			var tbody = "";
 			var tbodypart = "";
 			if(getpath !== "") {
-				tbody = `<tr><td></td><td colspan="6"><a href="javascript:getdata(${name}, ${path})"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
+				tbody = `<tr><td></td><td colspan="6"><a href="#" onmousedown="getdata(${name}, ${path})"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
 			}
 			for(i = 0; i < files.length; i++) {
 				var type = files[i]["type"];
@@ -248,16 +248,16 @@
                     </td>
                     <td>
                         <div class="filename">
-                            <a href="javascript:getdata('${name}', '${name}')"><i class="fa fa-folder-o"></i> ${name}</a>
+                            <a href="#" onmousedown="getdata('${name}', '${name}')"><i class="fa fa-folder-o"></i> ${name}</a>
                         </div>
                     </td>
                     <td>${type}</td>
                     <td>${date}</td>
                     <td class="inline-actions">
-                        <a title="Delete" href="javascript:getdata('${name}', '${path}', 'delete')" onclick="return confirm('Delete folder?');">
+                        <a title="Delete" href="#" onmousedown="getdata('${name}', '${path}', 'delete')" onclick="return confirm('Delete folder?');">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </a>
-                        <a title="Rename" href="javascript:getdata('${name}', '${path}', 'rename')">
+                        <a title="Rename" href="#" onmousedown="getdata('${name}', '${path}', 'rename')">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
                         <a title="Copy to..." href="?p=${path}&copy=${name}">
@@ -284,10 +284,10 @@
                     <td><span title="8 bytes">${size} B</span></td>
                     <td>${date}</td>
                     <td class="inline-actions">
-                        <a title="Delete" href="javascript:getdata('${name}', '${path}', 'delete')" onclick="return confirm('Delete file?');">
+                        <a title="Delete" href="#" onmousedown="getdata('${name}', '${path}', 'delete')" onclick="return confirm('Delete file?');">
                             <i class="fa fa-trash-o"></i>
                         </a>
-                        <a title="Rename" href="javascript:getdata('${name}', '${path}', 'rename')">
+                        <a title="Rename" href="#" onmousedown="getdata('${name}', '${path}', 'rename')">
                             <i class="fa fa-pencil-square-o"></i>
                         </a>
                         <a title="Copy to..." href="?p=${path}&copy=${name}.${type}">
@@ -335,7 +335,7 @@
               </div>
               <br>
               <p>
-                  <a type="submit" class="btn btn-primary" href="javascript:submit('${path}')"><i class="fa fa-upload"></i> Upload</a> &nbsp;
+                  <a type="submit" class="btn btn-primary" href="#" onmousedown="submit('${path}')"><i class="fa fa-upload"></i> Upload</a> &nbsp;
                   <b><a href="?p=" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
               </p>
       </div>`;
