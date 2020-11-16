@@ -226,6 +226,8 @@
 				var date = files[i]["date"];
 				var path = files[i]["path"];
 				var url = files[i]["url"];
+				var status = files[i]["status"];
+				var name = files[i]["name"];
 				if(getstatus === "delete") {
 					if(getname === name && getpath === path) {
 						files[i]["status"] = "delete";
@@ -237,8 +239,8 @@
 						files[i]["name"] = newname;
 					}
 				}
-				var status = files[i]["status"];
-				var name = files[i]["name"];
+				status = files[i]["status"];
+				name = files[i]["name"];
 				date = new Date(date * 1000);
 				date = ('0' + date.getUTCDate()).slice(-2) + '.' + ('0' + (date.getUTCMonth() + 1)).slice(-2) + '.' + ('0' + date.getUTCFullYear()).slice(-2) + ' ' + ('0' + date.getUTCHours()).slice(-2) + ':' + ('0' + date.getUTCMinutes()).slice(-2);
 				if(path === getpath && status === "") {
@@ -360,7 +362,6 @@
 			document.getElementById("fullsize").innerHTML = fullsize;
 			document.getElementById("filecount").innerHTML = filecount;
 			document.getElementById("foldercount").innerHTML = foldercount;
-
 		}
 
 		function submit(path) {
