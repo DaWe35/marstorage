@@ -116,7 +116,7 @@
 							<tbody id="name" style="border-top: 0.125rem solid #e3e3e3;"></tbody>
 							<tr>
 								<td class="gray"></td>
-								<td class="gray" colspan="6"> Full size: <span title=""></span>, files: , folders: </td>
+								<td class="gray" colspan="6"> Full size: <span id="fullsize"></span>, files: <span id="filecount"></span>, folders: <span id="foldercount"></span></td>
 							</tr>
 						</table>
 					</div>
@@ -212,6 +212,9 @@
 		http_request.send();
 
 		function getdata(getname = "", getpath = "", getstatus = "") {
+			var fullsize = 0;
+			var filecount = 0;
+			var foldercount = 0;
 			var tbody = "";
 			var tbodypart = "";
 			if(getpath !== "") {
@@ -260,7 +263,7 @@
                         <a title="Rename" href="#" onmousedown="getdata('${name}', '${path}', 'rename')">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
-                        <a title="Copy to..." href="?p=${path}&copy=${name}">
+                        <a title="Copy to..." href="#" onmousedown="getdata('${name}', '${path}', 'copy')">
                             <i class="fa fa-files-o" aria-hidden="true"></i>
                         </a>
                         <a title="Direct link" href="${url}" target="_blank">
@@ -269,6 +272,7 @@
                     </td>
                 </tr>`;
 						tbody += tbodypart;
+						foldercount++;
 					} else {
 						tbodypart = `<tr>
                     <td>
@@ -290,18 +294,20 @@
                         <a title="Rename" href="#" onmousedown="getdata('${name}', '${path}', 'rename')">
                             <i class="fa fa-pencil-square-o"></i>
                         </a>
-                        <a title="Copy to..." href="?p=${path}&copy=${name}.${type}">
+                        <a title="Copy to..." href="#" onmousedown="getdata('${name}', '${path}', 'copy')">
                             <i class="fa fa-files-o"></i>
                         </a>
-                        <a title="Direct link" href="https://marstorage.dev/${name}.${type}" target="_blank">
+                        <a title="Direct link" href="${url}" target="_blank">
                             <i class="fa fa-link"></i>
                         </a>
-                        <a title="Download" href="?p=${path}&dl=${name}.${type}">
+                        <a title="Download" href="#" onmousedown="getdata('${name}', '${path}', 'download')">
                             <i class="fa fa-download"></i>
                         </a>
                     </td>
                 </tr>`;
 						tbody += tbodypart;
+						filecount++;
+						fullsize += size;
 					}
 				}
 			}
@@ -336,7 +342,7 @@
               <br>
               <p>
                   <a type="submit" class="btn btn-primary" href="#" onmousedown="submit('${path}')"><i class="fa fa-upload"></i> Upload</a> &nbsp;
-                  <b><a href="?p=" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
+                  <b><a href="#" onmousedown="getdata('${name}', '${path}', 'cancel')" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
               </p>
       </div>`;
 			}
@@ -351,6 +357,10 @@
 				console.log("File renamed");
 			}
 			console.log(files);
+			document.getElementById("fullsize").innerHTML = fullsize;
+			document.getElementById("filecount").innerHTML = filecount;
+			document.getElementById("foldercount").innerHTML = foldercount;
+
 		}
 
 		function submit(path) {
