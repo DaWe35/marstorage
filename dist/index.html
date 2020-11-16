@@ -96,6 +96,7 @@
 				<div class="col-sm-3">
 					<div class="file-tree-view border w-100" id="file-tree-view">
 						<div style="color: #fff;" class="tree-title"><i class="fa fa-align-left fa-fw"></i> Browse</div>
+						<div id="tree"></div>
 					</div>
 				</div>
 				<div class="col-sm-9 mt-3 mt-md-0">
@@ -220,6 +221,29 @@
 			if(getpath !== "") {
 				tbody = `<tr><td></td><td colspan="6"><a href="#" onmousedown="getdata(${name}, ${path})"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
 			}
+			var tree = "";
+			var treearray = new Array();
+			treearray.push("");
+			for(i = 0; i < files.length; i++) {
+				var type = files[i]["type"];
+				var name = files[i]["name"];
+				if(type === "Folder") {
+					treearray.push(name);
+				}
+			}
+			var j;
+			for(i = 0; i < treearray.length; i++) {
+				tree += `<ul><li><span>${treearray[i]}</span></li>`;
+				for(j = 0; j < files.length; j++) {
+					var type = files[j]["type"];
+					var path = files[j]["path"];
+					var name = files[j]["name"];
+					if(type !== "Folder" && treearray[i] === path) {
+						tree += `<li>${name}.${type}</li>`;
+					}
+				}
+			}
+			document.getElementById("tree").innerHTML = tree;
 			for(i = 0; i < files.length; i++) {
 				var type = files[i]["type"];
 				var size = files[i]["size"];
