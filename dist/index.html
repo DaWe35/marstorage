@@ -268,7 +268,9 @@
 				if(getstatus === "rename") {
 					if(getname === name && getpath === path) {
 						var newname = prompt("New name");
-						files[i]["name"] = newname;
+						if (newname) {
+							files[i]["name"] = newname;
+						}
 					}
 				}
 				status = files[i]["status"];
