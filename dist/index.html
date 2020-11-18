@@ -307,7 +307,7 @@
                             <a href="${url}" title="File info"><i class="fa fa-file-text-o"></i> ${name}.${type}</a>
                         </div>
                     </td>
-                    <td><span title="8 bytes">${size} B</span></td>
+                    <td><span title="8 bytes">${filesize(size)}</span></td>
                     <td>${date}</td>
                     <td class="inline-actions">
                         <a title="Delete" href="#" onmousedown="getdata('${name}', '${path}', 'delete')" onclick="return confirm('Delete file?');">
@@ -351,7 +351,7 @@
 					}
 				})
 			}
-			document.getElementById("fullsize").innerHTML = fullsize;
+			document.getElementById("fullsize").innerHTML = filesize(fullsize);
 			document.getElementById("filecount").innerHTML = filecount;
 			document.getElementById("foldercount").innerHTML = foldercount;
 			
@@ -442,6 +442,20 @@
 		function checkbox_toggle() {
 			var e = get_checkboxes();
 			e.push(this), change_checkboxes(e)
+		}
+
+		function filesize(size) {
+			if (size < 1000) {
+				return `${size} B`;
+			} else if ((size / 1024) < 1000) {
+        		return `${Math.round(size/1024)} KiB`;
+			} else if ((size / 1024 / 1024) < 1000) {
+        		return `${Math.round(size / 1024 / 1024)} MiB`;
+			} else if ((size / 1024 / 1024 / 1024) < 1000) {
+        		return `${Math.round(size / 1024 / 1024 / 1024)} GiB`;
+			} else {
+        		return `${Math.round(size / 1024 / 1024 / 1024 / 1024)} TiB`;
+			}
 		}
 		</script>
 	</div>
