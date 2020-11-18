@@ -199,6 +199,7 @@
 			getdata()
 		})
 
+		var currentPath = '' // where the user navigated
 		function getdata(getname = "", getpath = "", getstatus = "") {
 			var fullsize = 0;
 			var filecount = 0;
@@ -206,6 +207,7 @@
 			var tbody = "";
 			var tbodypart = "";
 			if(getpath !== "") {
+				currentPath = getpath
 				tbody = `<tr><td></td><td colspan="6"><a href="#" onmousedown="getdata(${name}, ${path})"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
 			}
 			var tree = "";
@@ -404,8 +406,8 @@
 					</div>
 					<br>
 					<p>
-						<a type="submit" class="btn btn-primary" href="#" onmousedown="submit('')"><i class="fa fa-upload"></i> Upload</a> &nbsp;
-						<b><a href="#" onmousedown="getdata('', '', 'cancel')" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
+						<a type="submit" class="btn btn-primary" href="#" onmousedown="submit('` + currentPath + `')"><i class="fa fa-upload"></i> Upload</a> &nbsp;
+						<b><a href="#" onmousedown="getdata('` + currentPath + `', '` + currentPath + `', '')" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
 					</p>
 			</div>`;
 			document.getElementById("name").innerHTML = tbody;
