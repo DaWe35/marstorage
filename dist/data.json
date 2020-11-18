@@ -1,6 +1,6 @@
 [
-    {"name":"teszt", "type":"Folder", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
-    {"name":"teszt1", "type":"txt", "size":8, "date":1588126140, "path":"", "url":"", "status":""},
-    {"name":"teszt2", "type":"txt", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
-    {"name":"teszt3", "type":"txt", "size":17, "date":1588126140, "path":"teszt", "url":"", "status":""}
+    {"name":"Example folder", "type":"Folder", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
+    {"name":"Skynet logo", "type":"png", "size":8, "date":1588126140, "path":"", "url":"https://siasky.net/TAAevO7_r-UG22n7K1IK2N9sTFwVCkolVwWMi2rNilMG5w", "status":""},
+    {"name":"Example file", "type":"txt", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
+    {"name":"Example file 2", "type":"txt", "size":17, "date":1588126140, "path":"Example folder", "url":"", "status":""}
 ]

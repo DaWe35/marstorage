@@ -88,7 +88,7 @@
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<div class="navbar-nav float-rightd ml-auto">
-					<li class="nav-item"><a class="nav-link mx-1" title="Upload files" href="#" onmousedown="getdata('','','upload')"><i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i> Upload Files</a></li>
+					<li class="nav-item"><a class="nav-link mx-1" title="Upload files" href="#" onmousedown="show_upload()"><i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i> Upload Files</a></li>
 				</div>
 			</div>
 		</nav>
@@ -184,41 +184,20 @@
 		<script src="main.js"></script>
 
 		<script>
-		var i;
-		var files = new Array();
-		var http_request = new XMLHttpRequest();
-		try {
-			http_request = new XMLHttpRequest();
-		} catch(e) {
-			try {
-				http_request = new ActiveXObject("Msxml2.XMLHTTP");
-			} catch(e) {
-				try {
-					http_request = new ActiveXObject("Microsoft.XMLHTTP");
-				} catch(e) {
-					alert("Your browser broke!");
-				}
+		var files = []
+		skyid.getJSON('index', function(response) {
+			if (response == false) {
+				files = [
+					{"name":"Example folder", "type":"Folder", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
+					{"name":"Skynet logo", "type":"png", "size":8, "date":1588126140, "path":"", "url":"https://siasky.net/TAAevO7_r-UG22n7K1IK2N9sTFwVCkolVwWMi2rNilMG5w", "status":""},
+					{"name":"Example file", "type":"txt", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
+					{"name":"Example file 2", "type":"txt", "size":17, "date":1588126140, "path":"Example folder", "url":"", "status":""}
+				]
+			} else {
+				files = JSON.parse(response)
 			}
-		}
-		http_request.onreadystatechange = function() {
-			if(http_request.readyState == 4) {
-				var jsonObj = JSON.parse(http_request.responseText);
-				for(i = 0; i < jsonObj.length; i++) {
-					files[i] = {
-						name: jsonObj[i].name,
-						type: jsonObj[i].type,
-						size: jsonObj[i].size,
-						date: jsonObj[i].date,
-						path: jsonObj[i].path,
-						url: jsonObj[i].url,
-						status: jsonObj[i].status
-					};
-				}
-				getdata();
-			}
-		}
-		http_request.open("GET", "data.json", true);
-		http_request.send();
+			getdata()
+		})
 
 		function getdata(getname = "", getpath = "", getstatus = "") {
 			var fullsize = 0;
@@ -347,41 +326,6 @@
 					}
 				}
 			}
-			if(getstatus === "upload") {
-				tbody = `<style>
-        #hide input[type=file] {
-            display:none;
-            margin:10px;
-        }
-        #hide input[type=file] + label {
-            display:inline-block;
-            margin:20px;
-            padding: 4px 32px;
-            background-color: #FFFFFF;
-            border:solid 1px #666F77;
-            border-radius: 6px;
-            color:#666F77;
-        }
-        #hide input[type=file]:active + label {
-            background-image: none;
-            background-color:#2D6C7A;
-            color:#FFFFFF;
-        }
-      </style>
-      <div class="container mt-3">
-          <p><h4><b>Uploading files</b></h4></p>
-          <p class="break-word">Destination folder:</p>
-          <hr>
-              <div class="p-2" style="background: white">
-                <input type="file" id="file" multiple/><br>
-              </div>
-              <br>
-              <p>
-                  <a type="submit" class="btn btn-primary" href="#" onmousedown="submit('${path}')"><i class="fa fa-upload"></i> Upload</a> &nbsp;
-                  <b><a href="#" onmousedown="getdata('${name}', '${path}', 'cancel')" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
-              </p>
-      </div>`;
-			}
 			document.getElementById("name").innerHTML = tbody;
 			if(getstatus === "") {
 				console.log("Json loaded");
@@ -392,10 +336,18 @@
 			} else if(getstatus === "rename") {
 				console.log("File renamed");
 			}
-			console.log(files);
+
+			if (getstatus != '') {
+				skyid.setJSON('index', JSON.stringify(files), function(response) {
+					if (response != true) {
+						alert('Sorry, failed to save your index, please retry')
+					}
+				})
+			}
 			document.getElementById("fullsize").innerHTML = fullsize;
 			document.getElementById("filecount").innerHTML = filecount;
 			document.getElementById("foldercount").innerHTML = foldercount;
+			
 		}
 
 		function submit(path) {
@@ -416,9 +368,47 @@
 						url: fileurl,
 						status: ""
 					};
-					getdata(path, path);
+					getdata(path, path, 'finish_upload');
 				});
 			}
+		}
+
+
+		function show_upload() {
+			tbody = `<style>
+				#hide input[type=file] {
+					display:none;
+					margin:10px;
+				}
+				#hide input[type=file] + label {
+					display:inline-block;
+					margin:20px;
+					padding: 4px 32px;
+					background-color: #FFFFFF;
+					border:solid 1px #666F77;
+					border-radius: 6px;
+					color:#666F77;
+				}
+				#hide input[type=file]:active + label {
+					background-image: none;
+					background-color:#2D6C7A;
+					color:#FFFFFF;
+				}
+			</style>
+			<div class="container mt-3">
+				<p><h4><b>Uploading files</b></h4></p>
+				<p class="break-word">Destination folder:</p>
+				<hr>
+					<div class="p-2" style="background: white">
+						<input type="file" id="file" multiple/><br>
+					</div>
+					<br>
+					<p>
+						<a type="submit" class="btn btn-primary" href="#" onmousedown="submit('')"><i class="fa fa-upload"></i> Upload</a> &nbsp;
+						<b><a href="#" onmousedown="getdata('', '', 'cancel')" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
+					</p>
+			</div>`;
+			document.getElementById("name").innerHTML = tbody;
 		}
 
 		function change_checkboxes(e, t) {
