@@ -84,7 +84,7 @@
     </div>
   </div>
 	<div id="storage" class="show-if-logged-in" style="display: none;">
-		<nav class="navbar navbar-light bg-light navbar-expand-lg" style="background: linear-gradient(to left, #99ccff 0%, #ccffcc 100%); margin-top: 100px !important;">
+		<nav class="navbar navbar-light bg-light navbar-expand-lg" style="background: #1ED660 !important; margin-top: 100px !important;">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<div class="navbar-nav float-rightd ml-auto">
@@ -113,8 +113,8 @@
 									</th>
 									<th>Name</th>
 									<th style="width:10%">Size</th>
-									<th style="width:12%">Modified</th>
-									<th style="width:6.5%">Actions</th>
+									<th style="width:15%">Modified</th>
+									<th style="width:15%">Actions</th>
 								</tr>
 							</thead>
 							<tbody id="name" style="border-top: 0.125rem solid #e3e3e3;"></tbody>
@@ -177,108 +177,7 @@
 				</div>
 			</div>
 		</footer>
-		<style>
-			ul.tree {
-			  margin: 0;
-			  padding: 2px 20px;
-			}
-			ul.tree li {
-			  list-style: none;
-			  margin-left: -15px;
-			  position: relative;
-			}
-			ul.tree li input {
-			  cursor: pointer;
-			  height: 1em;
-			  left: 0;
-			  margin-left: 0;
-			  opacity: 0;
-			  position: absolute;
-			  top: 0;
-			  width: 2em;
-			  z-index: 2;
-			}
-			ul.tree li input:checked + ul {
-			  height: auto;
-			  margin: 0px 0px 0px -19px;
-			}
-			ul.tree li input:checked + ul:before {
-			  content: "\f068";
-			  font-family: Fontawesome;
-			  font-size: 15px;
-			  left: 0;
-			  margin-right: 5px;
-			  position: absolute;
-			  top: 0;
-			}
-			ul.tree li input:checked + ul > li {
-			  display: block;
-			  left: -3px;
-			  margin: 0 0 3px;
-			}
-			ul.tree li input:checked + ul > li last-child {
-			  margin: 0 0 0.063em;
-			}
-			ul.tree li input + ul {
-			  padding: 0 0 0 39px;
-			}
-			ul.tree li input + ul:before {
-			  content: "\f067";
-			  font-family: Fontawesome;
-			  font-size: 15px;
-			  left: 0;
-			  margin-right: 5px;
-			  position: absolute;
-			  top: 0;
-			}
-			ul.tree li input + ul > li {
-			  display: none;
-			  margin-left: -10px;
-			  padding-left: 1px;
-			}
-			ul.tree li label {
-			  cursor: pointer;
-			  margin-bottom: 0;
-			  margin-left: 17px;
-			}
-			ul.tree > li {
-			  margin-left: -1px !important;
-			}
-			ul.tree > li a {
-			  color: #606061;
-			  display: block;
-			  text-decoration: none;
-			}
-			ul.tree > li a:before {
-			  content: "";
-			  display: block;
-			  float: left;
-			  font-family: Fontawesome;
-			  font-size: 15px;
-			  margin-right: 5px;
-			}
-			ul.tree > li > a:before {
-			  content: "\f0c9";
-			  display: block;
-			  float: left;
-			  font-family: Fontawesome;
-			  font-size: 15px;
-			  margin-right: 5px;
-			}
-			ul.tree > li > a > label {
-			  margin-left: 0;
-			}
-			ul.tree > li > ul > li > a > label:before,
-			ul.tree > li > ul > li > ul > li > a > label:before {
-			  content: "\f0c9";
-			  display: block;
-			  position: absolute;
-			  font-family: Fontawesome;
-			  font-size: 15px;
-			  margin-right: 5px;
-			  left: 0px;
-			}
-			</style>
+
 		<script src="https://sky-id.hns.siasky.net/skyid.js"></script>
 		<script>
 			function loadfiles() {
@@ -515,8 +414,8 @@
 				<p><h4><b>Uploading files</b></h4></p>
 				<p class="break-word">Destination folder:</p>
 				<hr>
-					<div class="p-2" style="background: white">
-						<input type="file" id="file" multiple/><br>
+					<div class="p-2">
+						<input class="btn2" type="file" id="file" multiple/><br>
 					</div>
 					<br>
 					<p>
