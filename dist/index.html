@@ -299,7 +299,7 @@
                     </td>
                     <td>
                         <div class="filename">
-                            <a href="${url}" title="File info"><i class="fa fa-file-text-o"></i> ${name}.${type}</a>
+                            <a href="${url}" title="File info"><i class="${fileicon(type)}"></i> ${name}.${type}</a>
                         </div>
                     </td>
                     <td><span title="8 bytes">${filesize(size)}</span></td>
@@ -451,6 +451,87 @@
 			} else {
         		return `${Math.round(size / 1024 / 1024 / 1024 / 1024)} TiB`;
 			}
+		}
+
+		function fileicon(type) {
+			switch (type) {
+				case 'ico': case 'gif': case 'jpg': case 'jpeg': case 'jpc': case 'jp2':
+				case 'jpx': case 'xbm': case 'wbmp': case 'png': case 'bmp': case 'tif':
+				case 'tiff': case 'svg':
+				img = 'fa fa-picture-o';
+				break;
+				case 'passwd': case 'ftpquota': case 'sql': case 'js': case 'json': case 'sh':
+				case 'config': case 'twig': case 'tpl': case 'md': case 'gitignore':
+				case 'c': case 'cpp': case 'cs': case 'py': case 'map': case 'lock': case 'dtd':
+				img = 'fa fa-file-code-o';
+				break;
+				case 'txt': case 'ini': case 'conf': case 'log': case 'htaccess':
+				img = 'fa fa-file-text-o';
+				break;
+				case 'css': case 'less': case 'sass': case 'scss':
+				img = 'fa fa-css3';
+				break;
+				case 'zip': case 'rar': case 'gz': case 'tar': case '7z':
+				img = 'fa fa-file-archive-o';
+				break;
+				case 'php': case 'php4': case 'php5': case 'phps': case 'phtml':
+				img = 'fa fa-code';
+				break;
+				case 'htm': case 'html': case 'shtml': case 'xhtml':
+				img = 'fa fa-html5';
+				break;
+				case 'xml': case 'xsl':
+				img = 'fa fa-file-excel-o';
+				break;
+				case 'wav': case 'mp3': case 'mp2': case 'm4a': case 'aac': case 'ogg':
+				case 'oga': case 'wma': case 'mka': case 'flac': case 'ac3': case 'tds':
+				img = 'fa fa-music';
+				break;
+				case 'm3u': case 'm3u8': case 'pls': case 'cue':
+				img = 'fa fa-headphones';
+				break;
+				case 'avi': case 'mpg': case 'mpeg': case 'mp4': case 'm4v': case 'flv':
+				case 'f4v': case 'ogm': case 'ogv': case 'mov': case 'mkv': case '3gp':
+				case 'asf': case 'wmv':
+				img = 'fa fa-file-video-o';
+				break;
+				case 'eml': case 'msg':
+				img = 'fa fa-envelope-o';
+				break;
+				case 'xls': case 'xlsx':
+				img = 'fa fa-file-excel-o';
+				break;
+				case 'csv':
+				img = 'fa fa-file-text-o';
+				break;
+				case 'bak':
+				img = 'fa fa-clipboard';
+				break;
+				case 'doc': case 'docx':
+				img = 'fa fa-file-word-o';
+				break;
+				case 'ppt': case 'pptx':
+				img = 'fa fa-file-powerpoint-o';
+				break;
+				case 'ttf': case 'ttc': case 'otf': case 'woff':case 'woff2': case 'eot': case 'fon':
+				img = 'fa fa-font';
+				break;
+				case 'pdf':
+				img = 'fa fa-file-pdf-o';
+				break;
+				case 'psd': case 'ai': case 'eps': case 'fla': case 'swf':
+				img = 'fa fa-file-image-o';
+				break;
+				case 'exe': case 'msi':
+				img = 'fa fa-file-o';
+				break;
+				case 'bat':
+				img = 'fa fa-terminal';
+				break;
+				default:
+				img = 'fa fa-info-circle';
+			}
+			return img;
 		}
 		</script>
 	</div>
