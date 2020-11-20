@@ -88,6 +88,7 @@
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<div class="navbar-nav float-rightd ml-auto">
+					<li class="nav-item"><a class="nav-link mx-1" title="New folder" href="#" onmousedown="newfolder()"><i class="fa fa-folder fa-fw" aria-hidden="true"></i> New Folder</a></li>
 					<li class="nav-item"><a class="nav-link mx-1" title="Upload files" href="#" onmousedown="show_upload()"><i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i> Upload Files</a></li>
 				</div>
 			</div>
@@ -171,7 +172,7 @@
 						<div class="btn-wrapper profile">
 							<a href="https://twitter.com/CoolHDstudio" class="btn btn-icon btn-neutral btn-round btn-simple" data-toggle="tooltip" data-original-title="Follow us"> <i class="fab fa-twitter"></i> </a>
 							<a href="https://skylive.coolhd.hu" class="btn btn-icon btn-neutral btn-round btn-simple" data-toggle="tooltip" data-original-title="Watch SkyLive, decentralized video platform"> <i class="fa fa-play-circle"></i> </a>
-							<a href="https://filebase.com/" class="btn btn-icon btn-neutral  btn-round btn-simple" data-toggle="tooltip" data-original-title="Check out Filebase for managed S3 storage"> <i class="fas fa-save"></i> </a>
+							<a href="https://filebase.com/" class="btn btn-icon btn-neutral btn-round btn-simple" data-toggle="tooltip" data-original-title="Check out Filebase for managed S3 storage"> <i class="fas fa-save"></i> </a>
 						</div>
 					</div>
 				</div>
@@ -552,6 +553,13 @@
 				return string.substring(0, length - end.length) + end;
 			} else {
 				return string;
+			}
+		}
+
+		function newfolder() {
+			var newfoldername = prompt("New folder name");
+			if (newfoldername) {
+				console.log(newfoldername + " " + currentPath);
 			}
 		}
 		</script>
