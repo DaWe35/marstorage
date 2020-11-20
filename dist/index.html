@@ -177,6 +177,108 @@
 				</div>
 			</div>
 		</footer>
+		<style>
+			ul.tree {
+			  margin: 0;
+			  padding: 2px 20px;
+			}
+			ul.tree li {
+			  list-style: none;
+			  margin-left: -15px;
+			  position: relative;
+			}
+			ul.tree li input {
+			  cursor: pointer;
+			  height: 1em;
+			  left: 0;
+			  margin-left: 0;
+			  opacity: 0;
+			  position: absolute;
+			  top: 0;
+			  width: 2em;
+			  z-index: 2;
+			}
+			ul.tree li input:checked + ul {
+			  height: auto;
+			  margin: 0px 0px 0px -19px;
+			}
+			ul.tree li input:checked + ul:before {
+			  content: "\f068";
+			  font-family: Fontawesome;
+			  font-size: 15px;
+			  left: 0;
+			  margin-right: 5px;
+			  position: absolute;
+			  top: 0;
+			}
+			ul.tree li input:checked + ul > li {
+			  display: block;
+			  left: -3px;
+			  margin: 0 0 3px;
+			}
+			ul.tree li input:checked + ul > li last-child {
+			  margin: 0 0 0.063em;
+			}
+			ul.tree li input + ul {
+			  padding: 0 0 0 39px;
+			}
+			ul.tree li input + ul:before {
+			  content: "\f067";
+			  font-family: Fontawesome;
+			  font-size: 15px;
+			  left: 0;
+			  margin-right: 5px;
+			  position: absolute;
+			  top: 0;
+			}
+			ul.tree li input + ul > li {
+			  display: none;
+			  margin-left: -10px;
+			  padding-left: 1px;
+			}
+			ul.tree li label {
+			  cursor: pointer;
+			  margin-bottom: 0;
+			  margin-left: 17px;
+			}
+			ul.tree > li {
+			  margin-left: -1px !important;
+			}
+			ul.tree > li a {
+			  color: #606061;
+			  display: block;
+			  text-decoration: none;
+			}
+			ul.tree > li a:before {
+			  content: "";
+			  display: block;
+			  float: left;
+			  font-family: Fontawesome;
+			  font-size: 15px;
+			  margin-right: 5px;
+			}
+			ul.tree > li > a:before {
+			  content: "\f0c9";
+			  display: block;
+			  float: left;
+			  font-family: Fontawesome;
+			  font-size: 15px;
+			  margin-right: 5px;
+			}
+			ul.tree > li > a > label {
+			  margin-left: 0;
+			}
+			ul.tree > li > ul > li > a > label:before,
+			ul.tree > li > ul > li > ul > li > a > label:before {
+			  content: "\f0c9";
+			  display: block;
+			  position: absolute;
+			  font-family: Fontawesome;
+			  font-size: 15px;
+			  margin-right: 5px;
+			  left: 0px;
+			}
+			</style>
 		<script src="https://sky-id.hns.siasky.net/skyid.js"></script>
 		<script>
 			function loadfiles() {
@@ -215,9 +317,8 @@
 				currentPath = getpath
 				tbody = `<tr><td></td><td colspan="6"><a href="#" onmousedown="getdata(${name}, ${path})"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
 			}
-			var tree = "";
 			var treearray = new Array();
-			treearray.push("");
+			treearray.push("Root folder");
 			for(i = 0; i < files.length; i++) {
 				var type = files[i]["type"];
 				var name = files[i]["name"];
@@ -226,17 +327,25 @@
 				}
 			}
 			var j;
+			var tree = `<ul class="tree">`;
+			var fullname;
 			for(i = 0; i < treearray.length; i++) {
-				tree += `<ul><li><span>${treearray[i]}</span></li>`;
+	   			tree += `<li><label><a>${textlimit(treearray[i])}</a></label><input checked="" type="checkbox"><ul>`;
 				for(j = 0; j < files.length; j++) {
 					var type = files[j]["type"];
 					var path = files[j]["path"];
 					var name = files[j]["name"];
+					if (path === "") {
+						path = "Root folder";
+					}
 					if(type !== "Folder" && treearray[i] === path) {
-						tree += `<li>${name}.${type}</li>`;
+						fullname = name + '.' + type;
+						tree += `<li><a><label>${textlimit(fullname)}</label><input checked="" type="checkbox"></a></li>`;
 					}
 				}
+				tree += `</ul>`;
 			}
+			tree += `</ul>`;
 			document.getElementById("tree").innerHTML = tree;
 			for(i = 0; i < files.length; i++) {
 				var type = files[i]["type"];
@@ -537,6 +646,14 @@
 				img = 'fa fa-info-circle';
 			}
 			return img;
+		}
+
+		function textlimit(string, length = 25, end = "...") {
+			if (string.length > length) {
+				return string.substring(0, length - end.length) + end;
+			} else {
+				return string;
+			}
 		}
 		</script>
 	</div>
