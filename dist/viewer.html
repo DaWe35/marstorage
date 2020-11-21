@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" href="assets/img/favicon.png">
+	<title>MARStorage</title>
+	<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+	<link href="assets/css/style.css" rel="stylesheet" /> </head>
+
+<body class="landing-page">
+	<div class="show-if-logged-in" id="loading_status">Loading...</div>
+	<div class="show-if-logged-in" id="content_container"></div>
+	<div class="hide-if-logged-in" style="display: none;">Please log in to SkyID</div>
+
+
+	<script src="https://sky-id.hns.siasky.net/skyid.js"></script>
+
+	<script>
+
+	function skyidCallback(message) {
+		if (message == 'login_success') {
+			loadContent()
+		}
+	}
+
+	function progressCallback(msg) {
+		console.log(msg)
+	}
+	
+
+	var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': true, 'onUploadProgress': progressCallback })
+	if (skyid.seed != '') {
+		loadContent()
+	}
+
+	function loadContent() {
+		let hashString = window.location.hash
+		let hastStrings = hashString.split('#')
+		let filename = hastStrings[1]
+		let fileid = hastStrings[2]
+		let skylink = hastStrings[3]
+		// let skylink = 'sia:/...'
+		skyid.downloadEncryptedFile(skylink, fileid, function(blobUrl){
+			console.log('File downloaded', blobUrl)
+		})
+	}
+
+	function progressCallback(value) {
+		if (value == 1) {
+			document.getElementById('loading_status').style.display = 'none'
+		} else {
+			document.getElementById('loading_status').innerHTML = 'Loading ' + parseInt(value * 100) + '%'
+		}
+
+	}
+
+	</script>
+	
+	<!--   Core JS Files   -->
+	<script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
+	<script src="assets/js/core/popper.min.js" type="text/javascript"></script>
+	<script src="assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+	<!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
+	<script src="assets/js/script.min.js" type="text/javascript"></script>
+</body>
+
+</html>
