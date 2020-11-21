@@ -180,7 +180,6 @@
 		</footer>
 
 		<script src="https://sky-id.hns.siasky.net/skyid.js"></script>
-		<script src="main.js"></script>
 
 		<script>
 
@@ -190,10 +189,24 @@
 			}
 		}
 
-		var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': true })
+		function progressCallback(msg) {
+			console.log(msg)
+		}
+		
+
+		var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': true, 'onUploadProgress': progressCallback })
 		if (skyid.seed != '') {
 			loadfiles()
 		}
+
+
+		function saveFileIndex(files) {
+            skyid.setJSON('index', JSON.stringify(files), function(response) {
+                if (response != true) {
+                    alert('Sorry, failed to save your index, please retry')
+                }
+            })
+        }
 	
 		var files = []
 		var currentPath = '' // where the user navigated
@@ -347,7 +360,7 @@
 			}
 
 			if (getstatus != '') {
-				saveFiles(files)
+				saveFileIndex(files)
 			}
 			document.getElementById("fullsize").innerHTML = filesize(fullsize);
 			document.getElementById("filecount").innerHTML = filecount;
@@ -357,24 +370,23 @@
 
 		function submit(path) {
 			var all = document.getElementById("file");
-			for(var i = 0; i < all.files.length; i++) {
+			for (var i = 0; i < all.files.length; i++) {
 				var file = all.files[i];
-				window.uploadSkyfile(file, function(skylink) {
-					var fileurl = skylink;
-					var filename = file["name"].split('.').slice(0, -1).join('.');
-					var filetype = file["name"].split('.').pop();
-					var length = files.length;
+				var filename = file["name"].split('.').slice(0, -1).join('.');
+				var filetype = file["name"].split('.').pop();
+				var length = files.length;
+				skyid.uploadEncryptedFile(file, length, function(skylink) {
 					files[length] = {
 						name: filename,
 						type: filetype,
 						size: file["size"],
 						date: Date.now(),
 						path: path,
-						url: fileurl,
+						url: skylink,
 						status: ""
 					};
 					getdata(path, path, 'finish_upload');
-				});
+				})
 			}
 		}
 
@@ -405,7 +417,7 @@
 				<p class="break-word">Destination folder:</p>
 				<hr>
 					<div class="p-2">
-						<input class="btn2" type="file" id="file" multiple/><br>
+						<input class="btn2" type="file" id="file"/><br>
 					</div>
 					<br>
 					<p>
@@ -557,7 +569,7 @@
 				url: "",
 				status: ""
 			};
-			getdata('', currentPath);
+			getdata('', currentPath, 'new_folder');
 		}
 
 
