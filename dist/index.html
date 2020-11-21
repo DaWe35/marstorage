@@ -287,7 +287,7 @@
                         <a title="Rename" href="#" onmousedown="renamefile(${i})">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
-                        <a title="Move to..." href="#" onmousedown="getdata('${name}', '${path}', 'move')">
+                        <a title="Move to..." href="#" onmousedown="movefile(${i})">
                             <i class="fa fa-arrows" aria-hidden="true"></i>
                         </a>
                     </td>
@@ -315,7 +315,7 @@
                         <a title="Rename" href="#" onmousedown="renamefile(${i})">
                             <i class="fa fa-pencil-square-o"></i>
                         </a>
-                        <a title="Move to..." href="#" onmousedown="getdata('${name}', '${path}', 'move')">
+                        <a title="Move to..." href="#" onmousedown="movefile(${i})">
                             <i class="fa fa-arrows"></i>
                         </a>
                         <a title="Direct link" href="/viewer.html#${name}#${i}#${url}" target="_blank">
@@ -596,6 +596,15 @@
 			var newname = prompt("New name");
 			if (newname) {
 				files[id]["name"] = newname;
+			}
+			getdata();
+			saveFileIndex();
+		}
+
+		function movefile(id) {
+			var newpath = prompt("Move to");
+			if (newpath) {
+				files[id]["path"] = newpath;
 			}
 			getdata();
 			saveFileIndex();
