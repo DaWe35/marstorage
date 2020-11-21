@@ -283,7 +283,7 @@
 						tbodypart = `<tr>
                     <td>
                         <label>
-                            <input type="checkbox" name="file[]" value="${name}">
+                            <input type="checkbox" name="file[]" value="${i}">
                         </label>
                     </td>
                     <td>
@@ -314,7 +314,7 @@
 						tbodypart = `<tr>
                     <td>
                         <label>
-                            <input type="checkbox" name="file[]" value="${name}.${type}">
+                            <input type="checkbox" name="file[]" value="${i}">
                         </label>
                     </td>
                     <td>
@@ -592,15 +592,14 @@
 		function deleteselected() {
 			var checkbox = get_checkboxes();
 			for(var i = 0; i < files.length; i++) {
-				if(currentPath === files[i].path) {
-					for(var j = 0; j < checkbox.length; j++) {
-						if(checkbox[j].defaultValue === files[i].name && checkbox[j].checked === true) {
-							files[i]["status"] = "delete";
-						}
+				for(var j = 0; j < checkbox.length; j++) {
+					if(checkbox[j].defaultValue == i && checkbox[j].checked === true) {
+						files[i]["status"] = "delete";
 					}
 				}
 			}
 			getdata();
+			saveFileIndex();
 		}
 		</script>
 		
