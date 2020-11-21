@@ -261,14 +261,6 @@
 				var url = files[i]["url"];
 				var status = files[i]["status"];
 				var name = files[i]["name"];
-				if(getstatus === "rename") {
-					if(getname === name && getpath === path) {
-						var newname = prompt("New name");
-						if (newname) {
-							files[i]["name"] = newname;
-						}
-					}
-				}
 				status = files[i]["status"];
 				name = files[i]["name"];
 				date = new Date(date * 1000);
@@ -292,7 +284,7 @@
                         <a title="Delete" href="#" onmousedown="deletefile(${i})" onclick="return confirm('Delete folder?');">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </a>
-                        <a title="Rename" href="#" onmousedown="getdata('${name}', '${path}', 'rename')">
+                        <a title="Rename" href="#" onmousedown="renamefile(${i})">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
                         <a title="Move to..." href="#" onmousedown="getdata('${name}', '${path}', 'move')">
@@ -323,7 +315,7 @@
                         <a title="Delete" href="#" onmousedown="deletefile(${i})" onclick="return confirm('Delete file?');">
                             <i class="fa fa-trash-o"></i>
                         </a>
-                        <a title="Rename" href="#" onmousedown="getdata('${name}', '${path}', 'rename')">
+                        <a title="Rename" href="#" onmousedown="renamefile(${i})">
                             <i class="fa fa-pencil-square-o"></i>
                         </a>
                         <a title="Move to..." href="#" onmousedown="getdata('${name}', '${path}', 'move')">
@@ -598,11 +590,15 @@
 		}
 
 		function deletefile(id) {
-			for(var i = 0; i < files.length; i++) {
-				if(i === id) {
-					files[i]["status"] = "delete";
-					console.log(id + "deleted");
-				}
+			files[id]["status"] = "delete";
+			getdata();
+			saveFileIndex();
+		}
+
+		function renamefile(id) {
+			var newname = prompt("New name");
+			if (newname) {
+				files[id]["name"] = newname;
 			}
 			getdata();
 			saveFileIndex();
