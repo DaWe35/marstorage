@@ -206,6 +206,7 @@
 			var tbodypart = "";
 			if(getpath !== "") {
 				currentPath = getpath
+				console.log('currentPath', currentPath)
 				tbody = `<tr><td></td><td colspan="6"><a href="#" onmousedown="getdata(${name}, ${path})"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
 			}
 			var treearray = new Array();
@@ -213,7 +214,8 @@
 			for(i = 0; i < files.length; i++) {
 				var type = files[i]["type"];
 				var name = files[i]["name"];
-				if(type === "Folder") {
+				var status = files[i]["status"];
+				if (type === "Folder" && status != 'delete') {
 					treearray.push(name);
 				}
 			}
@@ -222,14 +224,15 @@
 			var fullname;
 			for(i = 0; i < treearray.length; i++) {
 	   			tree += `<li><label><a>${textlimit(treearray[i])}</a></label><input checked="" type="checkbox"><ul>`;
-				for(j = 0; j < files.length; j++) {
+				for (j = 0; j < files.length; j++) {
 					var type = files[j]["type"];
 					var path = files[j]["path"];
 					var name = files[j]["name"];
+					var status = files[j]["status"];
 					if (path === "") {
 						path = "Root folder";
 					}
-					if(type !== "Folder" && treearray[i] === path) {
+					if(type !== "Folder" && treearray[i] === path && status != 'delete') {
 						fullname = name + '.' + type;
 						tree += `<li><a><label>${textlimit(fullname)}</label><input checked="" type="checkbox"></a></li>`;
 					}
