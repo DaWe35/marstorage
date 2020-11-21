@@ -195,6 +195,13 @@
 			loadfiles()
 		}
 
+		function saveFiles(files) {
+			skyid.setJSON('index', JSON.stringify(files), function(response) {
+				if (response != true) {
+					alert('Sorry, failed to save your index, please retry')
+				}
+			})
+		}
 	
 		var files = []
 		var currentPath = '' // where the user navigated
@@ -348,11 +355,7 @@
 			}
 
 			if (getstatus != '') {
-				skyid.setJSON('index', JSON.stringify(files), function(response) {
-					if (response != true) {
-						alert('Sorry, failed to save your index, please retry')
-					}
-				})
+				saveFiles(files)
 			}
 			document.getElementById("fullsize").innerHTML = filesize(fullsize);
 			document.getElementById("filecount").innerHTML = filecount;
