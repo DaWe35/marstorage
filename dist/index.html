@@ -190,10 +190,24 @@
 			}
 		}
 
-		var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': true })
+		function progressCallback(msg) {
+			console.log(msg)
+		}
+		
+
+		var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': true, 'onUploadProgress': progressCallback })
 		if (skyid.seed != '') {
 			loadfiles()
 		}
+
+
+		function saveFileIndex(files) {
+            skyid.setJSON('index', JSON.stringify(files), function(response) {
+                if (response != true) {
+                    alert('Sorry, failed to save your index, please retry')
+                }
+            })
+        }
 	
 		var files = []
 		var currentPath = '' // where the user navigated
@@ -347,7 +361,7 @@
 			}
 
 			if (getstatus != '') {
-				saveFiles(files)
+				saveFileIndex(files)
 			}
 			document.getElementById("fullsize").innerHTML = filesize(fullsize);
 			document.getElementById("filecount").innerHTML = filecount;
@@ -557,7 +571,7 @@
 				url: "",
 				status: ""
 			};
-			getdata('', currentPath);
+			getdata('', currentPath, 'new_folder');
 		}
 
 
