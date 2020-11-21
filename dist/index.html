@@ -261,11 +261,6 @@
 				var url = files[i]["url"];
 				var status = files[i]["status"];
 				var name = files[i]["name"];
-				if(getstatus === "delete") {
-					if(getname === name && getpath === path) {
-						files[i]["status"] = "delete";
-					}
-				}
 				if(getstatus === "rename") {
 					if(getname === name && getpath === path) {
 						var newname = prompt("New name");
@@ -294,7 +289,7 @@
                     <td>${type}</td>
                     <td>${date}</td>
                     <td class="inline-actions">
-                        <a title="Delete" href="#" onmousedown="getdata('${name}', '${path}', 'delete')" onclick="return confirm('Delete folder?');">
+                        <a title="Delete" href="#" onmousedown="deletefile(${i})" onclick="return confirm('Delete folder?');">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </a>
                         <a title="Rename" href="#" onmousedown="getdata('${name}', '${path}', 'rename')">
@@ -325,7 +320,7 @@
                     <td><span title="8 bytes">${filesize(size)}</span></td>
                     <td>${date}</td>
                     <td class="inline-actions">
-                        <a title="Delete" href="#" onmousedown="getdata('${name}', '${path}', 'delete')" onclick="return confirm('Delete file?');">
+                        <a title="Delete" href="#" onmousedown="deletefile(${i})" onclick="return confirm('Delete file?');">
                             <i class="fa fa-trash-o"></i>
                         </a>
                         <a title="Rename" href="#" onmousedown="getdata('${name}', '${path}', 'rename')">
@@ -596,6 +591,17 @@
 					if(checkbox[j].defaultValue == i && checkbox[j].checked === true) {
 						files[i]["status"] = "delete";
 					}
+				}
+			}
+			getdata();
+			saveFileIndex();
+		}
+
+		function deletefile(id) {
+			for(var i = 0; i < files.length; i++) {
+				if(i === id) {
+					files[i]["status"] = "delete";
+					console.log(id + "deleted");
 				}
 			}
 			getdata();
