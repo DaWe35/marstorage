@@ -321,7 +321,7 @@
                         <a title="Direct link" href="viewer.html#${name}#${i}#${url}" target="_blank">
                             <i class="fa fa-link"></i>
                         </a>
-                        <a title="Download" href="#" onmousedown="getdata('${name}', '${path}', 'download')">
+                        <a title="Download" href="#" onmousedown="downloadfile(${name}, ${i}, ${url})">
                             <i class="fa fa-download"></i>
                         </a>
                     </td>
@@ -596,18 +596,22 @@
 			var newname = prompt("New name");
 			if (newname) {
 				files[id]["name"] = newname;
+				getdata();
+				saveFileIndex();
 			}
-			getdata();
-			saveFileIndex();
 		}
 
 		function movefile(id) {
 			var newpath = prompt("Move to");
 			if (newpath) {
 				files[id]["path"] = newpath;
+				getdata();
+				saveFileIndex();
 			}
-			getdata();
-			saveFileIndex();
+		}
+
+		function downloadfile(name, id, url) {
+			
 		}
 		</script>
 		
