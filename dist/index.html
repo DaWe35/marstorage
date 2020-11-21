@@ -194,14 +194,6 @@
 		if (skyid.seed != '') {
 			loadfiles()
 		}
-
-		function saveFiles(files) {
-			skyid.setJSON('index', JSON.stringify(files), function(response) {
-				if (response != true) {
-					alert('Sorry, failed to save your index, please retry')
-				}
-			})
-		}
 	
 		var files = []
 		var currentPath = '' // where the user navigated
@@ -554,10 +546,18 @@
 		}
 
 		function newfolder() {
+			var length = files.length;
 			var newfoldername = prompt("New folder name");
-			if (newfoldername) {
-				console.log(newfoldername + " " + currentPath);
-			}
+			files[length] = {
+				name: newfoldername,
+				type: 'Folder',
+				size: 0,
+				date: Date.now(),
+				path: currentPath,
+				url: "",
+				status: ""
+			};
+			getdata('', currentPath);
 		}
 
 
