@@ -180,37 +180,23 @@
 		</footer>
 
 		<script src="https://sky-id.hns.siasky.net/skyid.js"></script>
-		<script>
-			function loadfiles(message) {
-				if (message == 'login_success') {
-					skyid.getJSON('index', function(response) {
-						if (response == false) {
-							files = [
-								{"name":"Example folder", "type":"Folder", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
-								{"name":"Skynet logo", "type":"png", "size":8, "date":1588126140, "path":"", "url":"https://siasky.net/TAAevO7_r-UG22n7K1IK2N9sTFwVCkolVwWMi2rNilMG5w", "status":""},
-								{"name":"Example file", "type":"txt", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
-								{"name":"Example file 2", "type":"txt", "size":17, "date":1588126140, "path":"Example folder", "url":"", "status":""}
-							]
-						} else {
-							files = JSON.parse(response)
-						}
-						getdata()
-					})
-				}
-			}
-
-			var skyid = new SkyID('Marstorage', loadfiles, { 'devMode': true })
-			if (skyid.seed != '') {
-				loadfiles('login_success')
-			}
-		</script>
 		<script src="main.js"></script>
 
 		<script>
+
+		function skyidCallback(message) {
+			if (message == 'login_success') {
+				loadfiles()
+			}
+		}
+
+		var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': true })
+		if (skyid.seed != '') {
+			loadfiles()
+		}
+
+	
 		var files = []
-
-
-
 		var currentPath = '' // where the user navigated
 		function getdata(getname = "", getpath = "", getstatus = "") {
 			var fullsize = 0;
@@ -567,7 +553,25 @@
 				console.log(newfoldername + " " + currentPath);
 			}
 		}
+
+
+		function loadfiles() {
+			skyid.getJSON('index', function(response) {
+				if (response == false) {
+					files = [
+						{"name":"Example folder", "type":"Folder", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
+						{"name":"Skynet logo", "type":"png", "size":8, "date":1588126140, "path":"", "url":"https://siasky.net/TAAevO7_r-UG22n7K1IK2N9sTFwVCkolVwWMi2rNilMG5w", "status":""},
+						{"name":"Example file", "type":"txt", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
+						{"name":"Example file 2", "type":"txt", "size":17, "date":1588126140, "path":"Example folder", "url":"", "status":""}
+					]
+				} else {
+					files = JSON.parse(response)
+				}
+				getdata()
+			})
+		}
 		</script>
+		
 	</div>
 	<!--   Core JS Files   -->
 	<script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
