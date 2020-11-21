@@ -303,7 +303,7 @@
                     </td>
                     <td>
                         <div class="filename">
-                            <a href="${url}" title="File info"><i class="${fileicon(type)}"></i> ${name}.${type}</a>
+                            <a href="viewer.html#${name}#${i}#${url}" target="_blank" title="File info"><i class="${fileicon(type)}"></i> ${name}.${type}</a>
                         </div>
                     </td>
                     <td><span title="8 bytes">${filesize(size)}</span></td>
@@ -318,7 +318,7 @@
                         <a title="Move to..." href="#" onmousedown="getdata('${name}', '${path}', 'move')">
                             <i class="fa fa-arrows"></i>
                         </a>
-                        <a title="Direct link" href="/viewer.html#${name}#${i}#${url}" target="_blank">
+                        <a title="Direct link" href="viewer.html#${name}#${i}#${url}" target="_blank">
                             <i class="fa fa-link"></i>
                         </a>
                         <a title="Download" href="#" onmousedown="getdata('${name}', '${path}', 'download')">
