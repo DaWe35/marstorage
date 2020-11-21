@@ -9,7 +9,17 @@
 	<title>MARStorage</title>
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-	<link href="assets/css/style.css" rel="stylesheet" /> </head>
+	<link href="assets/css/style.css" rel="stylesheet" />
+	<style>
+		body {
+			text-align: center;
+			padding-top: 30px;
+		}
+		video, audio, img {
+			max-width: 100%;
+		}
+	</style>
+</head>
 
 <body class="landing-page">
 	<div class="show-if-logged-in" id="loading_status">Loading...</div>
@@ -40,22 +50,93 @@
 	function loadContent() {
 		let hashString = window.location.hash
 		let hastStrings = hashString.split('#')
-		let filename = hastStrings[1]
+		var filename = hastStrings[1]
 		let fileid = hastStrings[2]
 		let skylink = hastStrings[3]
 		// let skylink = 'sia:/...'
 		skyid.downloadEncryptedFile(skylink, fileid, function(blobUrl){
-			console.log('File downloaded', blobUrl)
+			console.log('File downloaded', blobUrl)		
+			generateContent(filename, blobUrl)
+			document.getElementById('loading_status').style.display = 'none'
 		})
 	}
 
-	function progressCallback(value) {
-		if (value == 1) {
-			document.getElementById('loading_status').style.display = 'none'
-		} else {
-			document.getElementById('loading_status').innerHTML = 'Loading ' + parseInt(value * 100) + '%'
-		}
+	function generateContent(filename, blob) {
+		let ftype = filetype(filename)		
+		var display = `<a href="${blob}" download="${filename}">Download</a><br>`
 
+		if (ftype == 'img') {
+			display += `<img src="${blob}" alt="">`
+		} else if (ftype == 'video' || ftype == 'audio') {
+			display += `<video src="${blob}" controls></video>`
+		} else if (ftype == 'text' || ftype == 'code') {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					display += `<pre>${this.responseText}</pre>`;
+					document.getElementById('content_container').innerHTML = display
+				}
+			};
+			xhttp.open("GET", blob, true);
+			xhttp.send();
+		}
+		document.getElementById('content_container').innerHTML = display
+	}
+
+	function progressCallback(value) {
+		console.log('progressCallback', value)
+		document.getElementById('loading_status').innerHTML = 'Loading ' + parseInt(value * 100) + '%'
+	}
+
+
+	function filetype(filename) {
+		let filesplit = filename.split('.')
+		let ext = filesplit[filesplit.length - 1]
+		let img = false
+		switch (ext) {
+			case 'ico': case 'gif': case 'jpg': case 'jpeg': case 'jpc': case 'jp2':
+			case 'jpx': case 'xbm': case 'wbmp': case 'png': case 'bmp': case 'tif':
+			case 'tiff': case 'svg':
+			img = 'img';
+			break;
+			case 'passwd': case 'ftpquota': case 'sql': case 'js': case 'json': case 'sh':
+			case 'config': case 'twig': case 'tpl': case 'md': case 'gitignore':
+			case 'txt': case 'ini': case 'conf': case 'log': case 'htaccess':
+			img = 'text';
+			break;
+			case 'c': case 'cpp': case 'cs': case 'py': case 'map': case 'lock': case 'dtd':
+			case 'css': case 'less': case 'sass': case 'scss':
+			case 'php': case 'php4': case 'php5': case 'phps': case 'phtml': case 'htm': case 'html': case 'shtml': case 'xhtml': case 'xml': case 'xsl':
+			img = 'code';
+			break;
+			case 'zip': case 'rar': case 'gz': case 'tar': case '7z':
+			img = 'file';
+			break;
+			case 'wav': case 'mp3': case 'mp2': case 'm4a': case 'aac': case 'ogg':
+			case 'oga': case 'wma': case 'mka': case 'flac': case 'ac3': case 'tds':
+			case 'm3u': case 'm3u8': case 'pls': case 'cue':
+			img = 'audio';
+			break;
+			case 'avi': case 'mpg': case 'mpeg': case 'mp4': case 'm4v': case 'flv':
+			case 'f4v': case 'ogm': case 'ogv': case 'mov': case 'mkv': case '3gp':
+			case 'asf': case 'wmv': case 'webm':
+			img = 'video';
+			break;
+			case 'doc': case 'docx':
+			case 'ppt': case 'pptx':
+			case 'csv':
+			img = 'document';
+			break;
+			case 'pdf':
+			img = 'pdf';
+			break;
+			case 'ttf': case 'ttc': case 'otf': case 'woff':case 'woff2': case 'eot': case 'fon':
+			img = 'font';
+			break;
+			default:
+			img = 'file';
+		}
+		return img;
 	}
 
 	</script>
