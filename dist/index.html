@@ -89,7 +89,8 @@
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<div class="navbar-nav float-rightd ml-auto">
 					<li class="nav-item"><a class="nav-link mx-1" title="New folder" href="#" onmousedown="newfolder()"><i class="fa fa-folder fa-fw" aria-hidden="true"></i> New Folder</a></li>
-					<li class="nav-item"><a class="nav-link mx-1" title="Upload files" href="#" onmousedown="show_upload()"><i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i> Upload Files</a></li>
+					<li class="nav-item"><a class="nav-link mx-1" title="Upload files" href="#" onmousedown="document.getElementById('file').click();"><i class="fa fa-cloud-upload fa-fw" aria-hidden="true"></i> Upload Files</a></li>
+					<input style="display: none;" type="file" id="file" multiple/>
 				</div>
 			</div>
 		</nav>
@@ -364,44 +365,6 @@
 			}
 		}
 
-
-		function show_upload() {
-			tbody = `<style>
-				#hide input[type=file] {
-					display:none;
-					margin:10px;
-				}
-				#hide input[type=file] + label {
-					display:inline-block;
-					margin:20px;
-					padding: 4px 32px;
-					background-color: #FFFFFF;
-					border:solid 1px #666F77;
-					border-radius: 6px;
-					color:#666F77;
-				}
-				#hide input[type=file]:active + label {
-					background-image: none;
-					background-color:#2D6C7A;
-					color:#FFFFFF;
-				}
-			</style>
-			<div class="container mt-3">
-				<p><h4><b>Uploading files</b></h4></p>
-				<p class="break-word">Destination folder:</p>
-				<hr>
-					<div class="p-2">
-						<input class="btn2" type="file" id="file"/><br>
-					</div>
-					<br>
-					<p>
-						<a type="submit" class="btn btn-primary" href="#" onmousedown="submit()"><i class="fa fa-upload"></i> Upload</a> &nbsp;
-						<b><a href="#" onmousedown="getdata()" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
-					</p>
-			</div>`;
-			document.getElementById("name").innerHTML = tbody;
-		}
-
 		function change_checkboxes(e, t) {
 			for(var n = e.length - 1; n >= 0; n--) e[n].checked = "boolean" == typeof t ? t : !e[n].checked
 		}
@@ -611,6 +574,16 @@
 			currentPath = currentPath + name + "/";
 			getdata();
 		}
+
+		var uploadinput = document.getElementById("file");
+		uploadinput.onchange = function() {
+			for (var i = 0; i < uploadinput.files.length; i++) {
+				if(uploadinput.files[i].size > 1024 * 1024 * 1024){
+					alert("File is too big, you can upload max 1 GiB!");
+				}
+			}
+			submit();
+		};
 		</script>
 		
 	</div>
