@@ -28,6 +28,7 @@
 
 
 	<script src="https://sky-id.hns.siasky.net/skyid.js"></script>
+	<!-- <script src="https://idtest.local/skyid.js"></script> -->
 
 	<script>
 
@@ -35,10 +36,6 @@
 		if (message == 'login_success') {
 			loadContent()
 		}
-	}
-
-	function progressCallback(msg) {
-		console.log(msg)
 	}
 	
 
@@ -84,8 +81,7 @@
 	}
 
 	function progressCallback(value) {
-		console.log('progressCallback', value)
-		document.getElementById('loading_status').innerHTML = 'Loading ' + parseInt(value * 100) + '%'
+		document.getElementById('loading_status').innerHTML = 'Fetching file for decrypt<br>' + parseInt(value * 100) + '%'
 	}
 
 
