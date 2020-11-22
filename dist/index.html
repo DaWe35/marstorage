@@ -193,8 +193,14 @@
 			console.log(msg)
 		}
 		
+		if (window.location.hostname == 'mars.local' || window.location.hostname == 'localhost' || window.location.protocol == 'file:') {
+			var devMode = true
+		} else {
+			var devMode = false
+		}
 
-		var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': true, 'onUploadProgress': progressCallback })
+		var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': devMode, 'onUploadProgress': progressCallback })
+
 		if (skyid.seed != '') {
 			loadfiles()
 		}
