@@ -209,17 +209,15 @@
         }
 	
 		var files = []
-		var currentPath = '' // where the user navigated
-		function getdata(getname = "", getpath = "", getstatus = "") {
+		var currentPath = '/';
+		function getdata() {
 			var fullsize = 0;
 			var filecount = 0;
 			var foldercount = 0;
 			var tbody = "";
 			var tbodypart = "";
-			if(getpath !== "") {
-				currentPath = getpath
-				console.log('currentPath', currentPath)
-				tbody = `<tr><td></td><td colspan="6"><a href="#" onmousedown="getdata('', ${path})"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
+			if(currentPath !== "/") {
+				tbody = `<tr><td></td><td colspan="6"><a href="#" onmousedown="parentfolder()"><i class="fa fa-chevron-circle-left"></i> ..</a></td></tr>`;
 			}
 			var treearray = new Array();
 			treearray.push("Root folder");
@@ -241,7 +239,7 @@
 					var path = files[j]["path"];
 					var name = files[j]["name"];
 					var status = files[j]["status"];
-					if (path === "") {
+					if (path === "/") {
 						path = "Root folder";
 					}
 					if(type !== "Folder" && treearray[i] === path && status != 'delete') {
@@ -263,7 +261,7 @@
 				var name = files[i]["name"];
 				date = new Date(date * 1000);
 				date = ('0' + date.getUTCDate()).slice(-2) + '.' + ('0' + (date.getUTCMonth() + 1)).slice(-2) + '.' + ('0' + date.getUTCFullYear()).slice(-2) + ' ' + ('0' + date.getUTCHours()).slice(-2) + ':' + ('0' + date.getUTCMinutes()).slice(-2);
-				if(path === getpath && status === "") {
+				if(path === currentPath && status === "") {
 					if(type === "Folder") {
 						tbodypart = `<tr>
                     <td>
@@ -273,7 +271,7 @@
                     </td>
                     <td>
                         <div class="filename">
-                            <a href="#" onmousedown="getdata('${name}', '${name}')"><i class="fa fa-folder-o"></i> ${name}</a>
+                            <a href="#" onmousedown="getfolderdata('${name}')"><i class="fa fa-folder-o"></i> ${name}</a>
                         </div>
                     </td>
                     <td>${type}</td>
@@ -331,17 +329,13 @@
 				}
 			}
 			document.getElementById("name").innerHTML = tbody;
-
-			if (getstatus != '') {
-				saveFileIndex()
-			}
 			document.getElementById("fullsize").innerHTML = filesize(fullsize);
 			document.getElementById("filecount").innerHTML = filecount;
 			document.getElementById("foldercount").innerHTML = foldercount;
 			
 		}
 
-		function submit(path) {
+		function submit() {
 			var all = document.getElementById("file");
 			for (var i = 0; i < all.files.length; i++) {
 				var file = all.files[i];
@@ -354,11 +348,12 @@
 						type: filetype,
 						size: file["size"],
 						date: Date.now(),
-						path: path,
+						path: currentPath,
 						url: skylink,
 						status: ""
 					};
-					getdata(path, path, 'finish_upload');
+					getdata();
+					saveFileIndex();
 				})
 			}
 		}
@@ -394,8 +389,8 @@
 					</div>
 					<br>
 					<p>
-						<a type="submit" class="btn btn-primary" href="#" onmousedown="submit('` + currentPath + `')"><i class="fa fa-upload"></i> Upload</a> &nbsp;
-						<b><a href="#" onmousedown="getdata('` + currentPath + `', '` + currentPath + `', '')" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
+						<a type="submit" class="btn btn-primary" href="#" onmousedown="submit()"><i class="fa fa-upload"></i> Upload</a> &nbsp;
+						<b><a href="#" onmousedown="getdata()" class="text-secondary"><i class="fa fa-times-circle"></i> Cancel</a></b>
 					</p>
 			</div>`;
 			document.getElementById("name").innerHTML = tbody;
@@ -543,7 +538,7 @@
 				status: ""
 			};
 			getdata();
-			saveFileIndex()
+			saveFileIndex();
 		}
 
 
@@ -551,10 +546,10 @@
 			skyid.getJSON('index', function(response) {
 				if (response == false) {
 					files = [
-						{"name":"Example folder", "type":"Folder", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
-						{"name":"Skynet logo", "type":"png", "size":8, "date":1588126140, "path":"", "url":"https://siasky.net/TAAevO7_r-UG22n7K1IK2N9sTFwVCkolVwWMi2rNilMG5w", "status":""},
-						{"name":"Example file", "type":"txt", "size":0, "date":1588126140, "path":"", "url":"", "status":""},
-						{"name":"Example file 2", "type":"txt", "size":17, "date":1588126140, "path":"Example folder", "url":"", "status":""}
+						{"name":"Example folder", "type":"Folder", "size":0, "date":1588126140, "path":"/", "url":"", "status":""},
+						{"name":"Skynet logo", "type":"png", "size":8, "date":1588126140, "path":"/", "url":"https://siasky.net/TAAevO7_r-UG22n7K1IK2N9sTFwVCkolVwWMi2rNilMG5w", "status":""},
+						{"name":"Example file", "type":"txt", "size":0, "date":1588126140, "path":"/", "url":"", "status":""},
+						{"name":"Example file 2", "type":"txt", "size":17, "date":1588126140, "path":"/Example folder/", "url":"", "status":""}
 					]
 				} else {
 					files = JSON.parse(response)
@@ -602,6 +597,18 @@
 
 		function downloadfile(name, id, url) {
 			
+		}
+
+		function parentfolder() {
+			path = currentPath;
+			var split = path.split("/");
+			currentPath = split.slice(0, split.length - 2).join("/") + "/";
+			getdata();
+		}
+
+		function getfolderdata(name) {
+			currentPath = currentPath + name + "/";
+			getdata();
 		}
 		</script>
 		
