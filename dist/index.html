@@ -352,7 +352,6 @@
 			var filename = file["name"].split('.').slice(0, -1).join('.');
 			var filetype = file["name"].split('.').pop();
 			var length = files.length;
-			console.log('starting upload', filename)
 			skyid.uploadEncryptedFile(file, length, function(skylink) {
 				files[length] = {
 					name: filename,
@@ -364,8 +363,6 @@
 					status: ""
 				};
 				
-				console.log('length', length)
-				console.log('finished upload', filename)
 				getdata();
 				saveFileIndex();
 				submit(fileIndex + 1)
