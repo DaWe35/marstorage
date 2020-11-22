@@ -342,27 +342,34 @@
 			
 		}
 
-		function submit() {
-			var all = document.getElementById("file");
-			for (var i = 0; i < all.files.length; i++) {
-				var file = all.files[i];
-				var filename = file["name"].split('.').slice(0, -1).join('.');
-				var filetype = file["name"].split('.').pop();
-				var length = files.length;
-				skyid.uploadEncryptedFile(file, length, function(skylink) {
-					files[length] = {
-						name: filename,
-						type: filetype,
-						size: file["size"],
-						date: Date.now(),
-						path: currentPath,
-						url: skylink,
-						status: ""
-					};
-					getdata();
-					saveFileIndex();
-				})
+		function submit(fileIndex = 0) {
+			var uploadInputFiles = document.getElementById("file").files
+			if (uploadInputFiles.length-1 < fileIndex) {
+				return
 			}
+
+			var file = uploadInputFiles[fileIndex];
+			var filename = file["name"].split('.').slice(0, -1).join('.');
+			var filetype = file["name"].split('.').pop();
+			var length = files.length;
+			console.log('starting upload', filename)
+			skyid.uploadEncryptedFile(file, length, function(skylink) {
+				files[length] = {
+					name: filename,
+					type: filetype,
+					size: file["size"],
+					date: Date.now(),
+					path: currentPath,
+					url: skylink,
+					status: ""
+				};
+				
+				console.log('length', length)
+				console.log('finished upload', filename)
+				getdata();
+				saveFileIndex();
+				submit(fileIndex + 1)
+			})
 		}
 
 		function change_checkboxes(e, t) {
