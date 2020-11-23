@@ -557,19 +557,33 @@
 		}
 
 		function movefile(id) {
+			console.log(files)
 			var newpath = prompt("Move to");
+			oldpath = files[id].path
 			if (newpath) {
-				if(!newpath.startsWith("/")) {
+				if (!newpath.startsWith("/")) {
 					newpath = currentPath + newpath;
 				}
-				if(!newpath.endsWith("/")) {
+				if (!newpath.endsWith("/")) {
 					newpath = newpath + "/";
+				}
+				console.log(newpath, files[id]["name"])
+				if (isFolderExist(newpath, files[id]["name"])) {
+					alert('This folder already exists!')
+					return
 				}
 				files[id]["path"] = newpath;
 				touchPathRecursive(newpath)
+				for (let i = 0; i < files.length; i++) {
+					if (files[i].path.startsWith(newpath)) {
+						files[i].path.replace(oldpath, newpath)
+					}
+					
+				}
 				getdata();
 				saveFileIndex();
 			}
+			console.log(files)
 		}
 
 		// checks and creates folders recursively if they not exist
@@ -577,7 +591,8 @@
 			pathSplit = path.split('/')
 			pathConcat = ''
 			for (let i = 0; i < pathSplit.length; i++) {
-				if (pathSplit[i].length != 0) {
+				console.log(isFolderExist(pathConcat + '/', pathSplit[i]), pathConcat + '/', pathSplit[i])
+				if (pathSplit[i].length != 0 && isFolderExist(pathConcat + '/', pathSplit[i])) {
 					files[files.length] = {
 						name: pathSplit[i],
 						type: 'Folder',
@@ -590,6 +605,15 @@
 					pathConcat += '/' + pathSplit[i]
 				}				
 			}
+		}
+
+		function isFolderExist(path, name) {
+			for (let i = 0; i < files.length; i++) {
+				if (files[i].name === name && files[i].path === path) {
+					return true
+				}
+			}
+			return false
 		}
 
 		function downloadfile(name, id, url) {
