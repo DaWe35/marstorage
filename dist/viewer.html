@@ -27,11 +27,12 @@
 	<div class="hide-if-logged-in" style="display: none;">Please log in to SkyID</div>
 
 
-	<script src="https://sky-id.hns.siasky.net/skyid.js"></script>
-	<!-- <script src="https://idtest.local/skyid.js"></script> -->
+	<!-- <script src="https://sky-id.hns.siasky.net/skyid.js"></script> -->
+	<script src="https://idtest.local/skyid.js"></script>
 
 	<script>
 
+	
 	function skyidCallback(message) {
 		if (message == 'login_success') {
 			loadContent()
@@ -44,28 +45,45 @@
 		var devMode = false
 	}
 
-	var skyid = new SkyID('Marstorage', skyidCallback, { 'devMode': devMode, 'onUploadProgress': progressCallback })
-	if (skyid.seed != '') {
-		loadContent()
+	var hashString = window.location.hash
+	var hastStrings = hashString.split('#')
+	var filename = hastStrings[1]
+	var fileidOrEncrypKey = hastStrings[2]
+	var skylink = hastStrings[3]
+	if (hastStrings.length > 4) {
+		var action = hastStrings[4]
+	} else {
+		var action = false
 	}
 
 	function loadContent() {
-		let hashString = window.location.hash
-		let hastStrings = hashString.split('#')
-		var filename = hastStrings[1]
-		let fileid = hastStrings[2]
-		let skylink = hastStrings[3]
 		// let skylink = 'sia:/...'
-		skyid.downloadEncryptedFile(skylink, fileid, function(blobUrl){
+		skyid.downloadEncryptedFile(skylink, fileidOrEncrypKey, function(blobUrl){
 			console.log('File downloaded', blobUrl)		
 			generateContent(filename, blobUrl)
 			document.getElementById('loading_status').style.display = 'none'
 		})
 	}
 
+	var opts = { 'devMode': devMode, 'onUploadProgress': progressCallback }
+	if (!isNumeric(fileidOrEncrypKey)) {
+		opts['customChildSeed'] = fileidOrEncrypKey
+	}
+	var skyid = new SkyID('Marstorage', skyidCallback, opts)
+	if (skyid.seed != '' || !isNumeric(fileidOrEncrypKey)) {
+		loadContent()
+		document.querySelectorAll('.hide-if-logged-in').forEach(function (element) {
+			element.style.display = 'none'
+		})
+		document.querySelectorAll('.show-if-logged-in').forEach(function (element) {
+			element.style.display = ''
+		})
+	}
+
+
 	function generateContent(filename, blob) {
 		let ftype = filetype(filename)		
-		var display = `<a href="${blob}" download="${filename}">Download</a><br>`
+		var display = `<a href="${blob}" download="${filename}" id="dlbtn">Download</a><br>`
 
 		if (ftype == 'img') {
 			display += `<img src="${blob}" alt="">`
@@ -77,6 +95,10 @@
 				if (this.readyState == 4 && this.status == 200) {
 					display += `<pre>${this.responseText}</pre>`;
 					document.getElementById('content_container').innerHTML = display
+					
+					if (action == 'download') {
+						document.getElementById('dlbtn').click()
+					}
 				}
 			};
 			xhttp.open("GET", blob, true);
@@ -84,6 +106,7 @@
 		}
 		document.getElementById('content_container').innerHTML = display
 	}
+
 
 	function progressCallback(value) {
 		document.getElementById('loading_status').innerHTML = 'Fetching file for decrypt<br>' + parseInt(value * 100) + '%'
@@ -138,6 +161,13 @@
 			img = 'file';
 		}
 		return img;
+	}
+
+
+	function isNumeric(str) {
+		if (typeof str != "string") return false // we only process strings!  
+		return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+			!isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 	}
 
 	</script>
