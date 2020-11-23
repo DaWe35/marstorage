@@ -550,35 +550,9 @@
 				files[id]["name"] = newname;
 				getdata();
 				saveFileIndex();
-			}else{
-				var oldpath = files[id]["path"] + files[id]["name"] + '/';
-				console.log(oldpath);
-				var testpath = currentPath + newname + '/';
-				var testarray = new Array("/");
-				for(var i = 0; i<files.length; i++) {
-					if(files[i]["status"] !== "delete") {
-						if(files[i]["type"] === "Folder") {
-							testarray.push(files[i]["path"] + files[i]["name"] + "/");
-						}
-					}
-				}
-				console.log(testarray);
-				console.log(files);
-				if(testarray.indexOf(testpath) === -1){
-					for(var j = 0; j<files.length; j++) {
-						for(var i = 0; i < testarray.length; j++) {
-							if (testarray[i].startsWith(oldpath)){
-								console.log(testarray[i].replace(oldpath, testpath));
-								replacepath = testarray[i].replace(oldpath, testpath);
-								if(files[j]["type"] === "Folder"){
-									files[j]["path"] = replacepath;
-								}else{
-									files[j]["path"] = replacepath;
-								}
-							}
-						}
-					}
-				}
+			} else if (newname) {
+				files[id]["name"] = newname;
+				
 			}
 		}
 
@@ -592,8 +566,29 @@
 					newpath = newpath + "/";
 				}
 				files[id]["path"] = newpath;
+				touchPathRecursive(newpath)
 				getdata();
 				saveFileIndex();
+			}
+		}
+
+		// checks and creates folders recursively if they not exist
+		function touchPathRecursive(path) {
+			pathSplit = path.split('/')
+			pathConcat = ''
+			for (let i = 0; i < pathSplit.length; i++) {
+				if (pathSplit[i].length != 0) {
+					files[files.length] = {
+						name: pathSplit[i],
+						type: 'Folder',
+						size: 0,
+						date: Date.now(),
+						path: pathConcat + '/',
+						url: "",
+						status: ""
+					};
+					pathConcat += '/' + pathSplit[i]
+				}				
 			}
 		}
 
