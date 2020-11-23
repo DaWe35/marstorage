@@ -339,7 +339,6 @@
 			document.getElementById("fullsize").innerHTML = filesize(fullsize);
 			document.getElementById("filecount").innerHTML = filecount;
 			document.getElementById("foldercount").innerHTML = foldercount;
-			
 		}
 
 		function submit(fileIndex = 0) {
@@ -547,16 +546,51 @@
 
 		function renamefile(id) {
 			var newname = prompt("New name");
-			if (newname) {
+			if (newname && files[id]["type"] != "Folder") {
 				files[id]["name"] = newname;
 				getdata();
 				saveFileIndex();
+			}else{
+				var oldpath = files[id]["path"] + files[id]["name"] + '/';
+				console.log(oldpath);
+				var testpath = currentPath + newname + '/';
+				var testarray = new Array("/");
+				for(var i = 0; i<files.length; i++) {
+					if(files[i]["status"] !== "delete") {
+						if(files[i]["type"] === "Folder") {
+							testarray.push(files[i]["path"] + files[i]["name"] + "/");
+						}
+					}
+				}
+				console.log(testarray);
+				console.log(files);
+				if(testarray.indexOf(testpath) === -1){
+					for(var j = 0; j<files.length; j++) {
+						for(var i = 0; i < testarray.length; j++) {
+							if (testarray[i].startsWith(oldpath)){
+								console.log(testarray[i].replace(oldpath, testpath));
+								replacepath = testarray[i].replace(oldpath, testpath);
+								if(files[j]["type"] === "Folder"){
+									files[j]["path"] = replacepath;
+								}else{
+									files[j]["path"] = replacepath;
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 
 		function movefile(id) {
 			var newpath = prompt("Move to");
 			if (newpath) {
+				if(!newpath.startsWith("/")) {
+					newpath = currentPath + newpath;
+				}
+				if(!newpath.endsWith("/")) {
+					newpath = newpath + "/";
+				}
 				files[id]["path"] = newpath;
 				getdata();
 				saveFileIndex();
@@ -588,6 +622,53 @@
 			}
 			submit();
 		};
+
+
+		/*window.onload = function() {
+			var oldpath = "/s/";
+			var testpath = "/s/";
+			var testarray = new Array("/");
+			for(var i = 0; i<files.length; i++) {
+				if(files[i]["status"] !== "delete") {
+					if(files[i]["type"] === "Folder") {
+						testarray.push(files[i]["path"] + files[i]["name"] + "/");
+					}
+				}
+			}
+			console.log(testarray);
+			console.log(files);
+			if(testarray.indexOf(testpath) === -1){
+				for(var i = 0; i<testarray.length; i++) {
+					var splittestarray = testarray[i].split("/");
+					var splittestpath = testpath.split("/");
+					if (testarray[i].startsWith(testpath)){
+						console.log(testarray[i]);
+					}
+				}
+			}
+		}*/
+
+		/*window.onload = function() {
+			var oldpath = "/s/";
+			var testpath = "/f/";
+			var testarray = new Array("/");
+			for(var i = 0; i<files.length; i++) {
+				if(files[i]["status"] !== "delete") {
+					if(files[i]["type"] === "Folder") {
+						testarray.push(files[i]["path"] + files[i]["name"] + "/");
+					}
+				}
+			}
+			console.log(testarray);
+			console.log(files);
+			if(testarray.indexOf(testpath) === -1){
+				for(var i = 0; i<testarray.length; i++) {
+					if (testarray[i].startsWith(oldpath)){
+						console.log(testarray[i].replace(oldpath, testpath));
+					}
+				}
+			}
+		}*/
 		</script>
 		
 	</div>
