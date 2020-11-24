@@ -557,7 +557,7 @@
 		}
 
 		function movefile(id) {
-			console.log(files)
+			console.log('files:', files)
 			var newpath = prompt("Move to");
 			oldpath = files[id].path
 			if (newpath) {
@@ -567,7 +567,7 @@
 				if (!newpath.endsWith("/")) {
 					newpath = newpath + "/";
 				}
-				console.log(newpath, files[id]["name"])
+				console.log('newpath, files[id]["name"]', newpath, files[id]["name"])
 				if (isFolderExist(newpath, files[id]["name"])) {
 					alert('This folder already exists!')
 					return
@@ -583,27 +583,31 @@
 				getdata();
 				saveFileIndex();
 			}
-			console.log(files)
+			console.log('files:', files)
 		}
 
 		// checks and creates folders recursively if they not exist
 		function touchPathRecursive(path) {
-			pathSplit = path.split('/')
-			pathConcat = ''
+			var pathSplit = path.split('/')
+			var pathConcat = '/'
 			for (let i = 0; i < pathSplit.length; i++) {
-				console.log(isFolderExist(pathConcat + '/', pathSplit[i]), pathConcat + '/', pathSplit[i])
-				if (pathSplit[i].length != 0 && isFolderExist(pathConcat + '/', pathSplit[i])) {
-					files[files.length] = {
-						name: pathSplit[i],
-						type: 'Folder',
-						size: 0,
-						date: Date.now(),
-						path: pathConcat + '/',
-						url: "",
-						status: ""
-					};
-					pathConcat += '/' + pathSplit[i]
-				}				
+				console.log('length, isFolderExist', pathSplit[i].length, isFolderExist(pathConcat, pathSplit[i]))
+				console.log('pathConcat, pathSplit[i]', pathConcat, pathSplit[i])
+				if (pathSplit[i].length > 0) {
+					if (!isFolderExist(pathConcat, pathSplit[i])) {
+						console.log('adding new folder:', pathConcat, pathSplit[i])
+						files[files.length] = {
+							name: pathSplit[i],
+							type: 'Folder',
+							size: 0,
+							date: Date.now(),
+							path: pathConcat,
+							url: "",
+							status: ""
+						}
+					}
+					pathConcat += pathSplit[i] + '/'
+				}
 			}
 		}
 
