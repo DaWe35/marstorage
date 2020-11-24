@@ -1278,7 +1278,7 @@ a>code {
 
 .btn:not(:disabled):not(.disabled).active:focus,
 .btn:not(:disabled):not(.disabled):active:focus {
-	box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08), none
+	box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08)
 }
 
 .btn-primary {
@@ -1313,7 +1313,7 @@ a>code {
 
 .btn-primary:not(:disabled):not(.disabled).active:focus,
 .btn-primary:not(:disabled):not(.disabled):active:focus {
-	box-shadow: none, 0 0 0 0 rgba(30, 214, 96, .5)
+	box-shadow: 0 0 0 0 rgba(30, 214, 96, .5)
 }
 
 .btn-success {
@@ -1348,7 +1348,7 @@ a>code {
 
 .btn-success:not(:disabled):not(.disabled).active:focus,
 .btn-success:not(:disabled):not(.disabled):active:focus {
-	box-shadow: none, 0 0 0 0 rgba(0, 242, 195, .5)
+	box-shadow: 0 0 0 0 rgba(0, 242, 195, .5)
 }
 
 .btn-info {
@@ -1383,7 +1383,7 @@ a>code {
 
 .btn-info:not(:disabled):not(.disabled).active:focus,
 .btn-info:not(:disabled):not(.disabled):active:focus {
-	box-shadow: none, 0 0 0 0 rgba(29, 140, 248, .5)
+	box-shadow: 0 0 0 0 rgba(29, 140, 248, .5)
 }
 
 .btn-light {
@@ -1418,7 +1418,7 @@ a>code {
 
 .btn-light:not(:disabled):not(.disabled).active:focus,
 .btn-light:not(:disabled):not(.disabled):active:focus {
-	box-shadow: none, 0 0 0 0 rgba(173, 181, 189, .5)
+	box-shadow: 0 0 0 0 rgba(173, 181, 189, .5)
 }
 
 .btn-default {
@@ -1453,7 +1453,7 @@ a>code {
 
 .btn-default:not(:disabled):not(.disabled).active:focus,
 .btn-default:not(:disabled):not(.disabled):active:focus {
-	box-shadow: none, 0 0 0 0 rgba(52, 70, 117, .5)
+	box-shadow: 0 0 0 0 rgba(52, 70, 117, .5)
 }
 
 .btn-white {
@@ -1488,7 +1488,7 @@ a>code {
 
 .btn-white:not(:disabled):not(.disabled).active:focus,
 .btn-white:not(:disabled):not(.disabled):active:focus {
-	box-shadow: none, 0 0 0 0 rgba(255, 255, 255, .5)
+	box-shadow: 0 0 0 0 rgba(255, 255, 255, .5)
 }
 
 .btn-neutral {
@@ -1523,7 +1523,7 @@ a>code {
 
 .btn-neutral:not(:disabled):not(.disabled).active:focus,
 .btn-neutral:not(:disabled):not(.disabled):active:focus {
-	box-shadow: none, 0 0 0 0 rgba(255, 255, 255, .5)
+	box-shadow: 0 0 0 0 rgba(255, 255, 255, .5)
 }
 
 .btn-outline-primary {
@@ -6587,16 +6587,6 @@ ul li {
 .icon {
 	width: auto;
 	height: auto
-}
-
-.icon i,
-.icon svg {
-	font-size: auto-.75
-}
-
-.icon+.icon-text {
-	padding-left: 1rem;
-	width: calc(100% - auto - 1)
 }
 
 .icon-xl {
