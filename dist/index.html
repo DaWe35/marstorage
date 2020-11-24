@@ -231,6 +231,32 @@
 			}
 			tree += `</ul>`;
 			document.getElementById("tree").innerHTML = tree;
+			var countwodelete = 0;
+			for(i = 0; i < files.length; i++) {
+				if(files[i]["status"] !== "delete") {
+					countwodelete++;
+				}
+			}
+			if(countwodelete === 0){
+				tbody = `<tr>
+                    <td></td>
+                    <td>
+                        <div class="filename">
+                            <a href="#"><i class="fa  fa-info-circle"></i> You have no files in MARStorage.</a>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td class="inline-actions">
+                        <a title="New Folder" href="#" onmousedown="newfolder()">
+                            <i class="fa fa-folder" aria-hidden="true"></i>
+                        </a>
+                        <a title="Upload Files" href="#" onmousedown="document.getElementById('file').click();">
+                            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>`;
+			}
 			for(i = 0; i < files.length; i++) {
 				var type = files[i]["type"];
 				var size = files[i]["size"];
