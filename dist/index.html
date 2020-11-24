@@ -560,6 +560,7 @@
 			console.log('files:', files)
 			var newpath = prompt("Move to");
 			oldpath = files[id].path
+			oldpathAndFilename = files[id].path + files[id].name + '/'
 			if (newpath) {
 				if (!newpath.startsWith("/")) {
 					newpath = currentPath + newpath;
@@ -574,9 +575,12 @@
 				}
 				files[id]["path"] = newpath;
 				touchPathRecursive(newpath)
+				// move all files what the folder includes to the new path
 				for (let i = 0; i < files.length; i++) {
-					if (files[i].path.startsWith(newpath)) {
-						files[i].path.replace(oldpath, newpath)
+					if (files[i].path.startsWith(oldpathAndFilename) && files[i].status != 'delete') {
+						console.log('files[i].path, oldpath', files[i].path, oldpath)
+						console.log('replaced', oldpath, newpath, 'for', files[i].type, files[i].path + files[i].name)
+						files[i].path = files[i].path.replace(oldpath, newpath)
 					}
 					
 				}
