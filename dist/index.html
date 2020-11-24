@@ -181,16 +181,22 @@
 
 
 		function saveFileIndex() {
+			document.addEventListener("click",handler,true);
+			document.addEventListener("mousedown",handler,true);
             skyid.setJSON('index', JSON.stringify(files), function(response) {
                 if (response != true) {
                     alert('Sorry, failed to save your index, please retry')
                 }
-            })
+			})
+			document.removeEventListener("click",handler,true);
+			document.removeEventListener("mousedown",handler,true);
         }
 	
 		var files = []
 		var currentPath = '/';
 		function getdata() {
+			document.addEventListener("click",handler,true);
+			document.addEventListener("mousedown",handler,true);
 			var fullsize = 0;
 			var filecount = 0;
 			var foldercount = 0;
@@ -338,11 +344,17 @@
 			document.getElementById("fullsize").innerHTML = filesize(fullsize);
 			document.getElementById("filecount").innerHTML = filecount;
 			document.getElementById("foldercount").innerHTML = foldercount;
+			document.removeEventListener("click",handler,true);
+			document.removeEventListener("mousedown",handler,true);
 		}
 
 		function submit(fileIndex = 0) {
+			document.addEventListener("click",handler,true);
+			document.addEventListener("mousedown",handler,true);
 			var uploadInputFiles = document.getElementById("file").files
 			if (uploadInputFiles.length-1 < fileIndex) {
+				document.removeEventListener("click",handler,true);
+				document.removeEventListener("mousedown",handler,true);
 				return
 			}
 
@@ -497,19 +509,26 @@
 		}
 
 		function newfolder() {
+			document.addEventListener("click",handler,true);
+			document.addEventListener("mousedown",handler,true);
 			var length = files.length;
 			var newfoldername = prompt("New folder name");
-			files[length] = {
-				name: newfoldername,
-				type: 'Folder',
-				size: 0,
-				date: Date.now(),
-				path: currentPath,
-				url: "",
-				status: ""
-			};
-			getdata();
-			saveFileIndex();
+			if (newfoldername === null) {
+				document.removeEventListener("click",handler,true);
+				document.removeEventListener("mousedown",handler,true);
+			}else{
+				files[length] = {
+					name: newfoldername,
+					type: 'Folder',
+					size: 0,
+					date: Date.now(),
+					path: currentPath,
+					url: "",
+					status: ""
+				};
+				getdata();
+				saveFileIndex();
+			}
 		}
 
 
@@ -544,31 +563,43 @@
 		}
 
 		function renamefile(id) {
+			document.addEventListener("click",handler,true);
+			document.addEventListener("mousedown",handler,true);
 			var newname = prompt("New name");
-			if (newname && files[id]["type"] != "Folder") {
+			if(newname === null) {
+				document.removeEventListener("click",handler,true);
+				document.removeEventListener("mousedown",handler,true);
+			}else{
+				if (newname && files[id]["type"] != "Folder") {
 				files[id].name = newname;
-			} else if (newname) {
-				// replace last
-				var newpath = files[id].path + newname + '/'
-				var oldpath = files[id].path + files[id].name + '/'
-				
-				files[id].name = newname;
-				// move all files what the folder includes to the new path
-				for (let i = 0; i < files.length; i++) {
-					if (files[i].path.startsWith(oldpath) && files[i].status != 'delete') {
-						console.log('files[i].path, oldpath', files[i].path, oldpath)
-						console.log('replaced', oldpath, newpath, 'for', files[i].type, files[i].path + files[i].name)
-						files[i].path = files[i].path.replace(oldpath, newpath)
+				} else if (newname) {
+					// replace last
+					var newpath = files[id].path + newname + '/'
+					var oldpath = files[id].path + files[id].name + '/'
+					
+					files[id].name = newname;
+					// move all files what the folder includes to the new path
+					for (let i = 0; i < files.length; i++) {
+						if (files[i].path.startsWith(oldpath) && files[i].status != 'delete') {
+							console.log('files[i].path, oldpath', files[i].path, oldpath)
+							console.log('replaced', oldpath, newpath, 'for', files[i].type, files[i].path + files[i].name)
+							files[i].path = files[i].path.replace(oldpath, newpath)
+						}
 					}
 				}
+				getdata();
+				saveFileIndex();
 			}
-			getdata();
-			saveFileIndex();
 		}
 
 		function moveprompt(id) {
+			document.addEventListener("click",handler,true);
+			document.addEventListener("mousedown",handler,true);
 			var newpath = prompt("Move to");
-			if (newpath) {
+			if (newpath === null) {
+				document.removeEventListener("click",handler,true);
+				document.removeEventListener("mousedown",handler,true);
+			}else{
 				movefile(id, newpath)
 			}
 		}
@@ -661,6 +692,11 @@
 			}
 			submit();
 		};
+
+		function handler(e){
+			e.stopPropagation();
+			e.preventDefault();
+		}
 		</script>
 		
 	</div>
