@@ -290,7 +290,7 @@
                         <a title="Rename" href="#" onmousedown="renamefile(${i})">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
-                        <a title="Move to..." href="#" onmousedown="movefile(${i})">
+                        <a title="Move to..." href="#" onmousedown="moveprompt(${i})">
                             <i class="fa fa-arrows" aria-hidden="true"></i>
                         </a>
                     </td>
@@ -318,7 +318,7 @@
                         <a title="Rename" href="#" onmousedown="renamefile(${i})">
                             <i class="fa fa-pencil-square-o"></i>
                         </a>
-                        <a title="Move to..." href="#" onmousedown="movefile(${i})">
+                        <a title="Move to..." href="#" onmousedown="moveprompt(${i})">
                             <i class="fa fa-arrows"></i>
                         </a>
                         <a title="Direct link" href="viewer.html#${name}.${type}#${skyid.deriveChildSeed(i)}#${url}" target="_blank">
@@ -547,47 +547,60 @@
 		function renamefile(id) {
 			var newname = prompt("New name");
 			if (newname && files[id]["type"] != "Folder") {
-				files[id]["name"] = newname;
-				getdata();
-				saveFileIndex();
+				files[id].name = newname;
 			} else if (newname) {
-				files[id]["name"] = newname;
+				// replace last
+				var newpath = files[id].path + newname + '/'
+				var oldpath = files[id].path + files[id].name + '/'
 				
-			}
-		}
-
-		function movefile(id) {
-			console.log('files:', files)
-			var newpath = prompt("Move to");
-			oldpath = files[id].path
-			oldpathAndFilename = files[id].path + files[id].name + '/'
-			if (newpath) {
-				if (!newpath.startsWith("/")) {
-					newpath = currentPath + newpath;
-				}
-				if (!newpath.endsWith("/")) {
-					newpath = newpath + "/";
-				}
-				console.log('newpath, files[id]["name"]', newpath, files[id]["name"])
-				if (isFolderExist(newpath, files[id]["name"])) {
-					alert('This folder already exists!')
-					return
-				}
-				files[id]["path"] = newpath;
-				touchPathRecursive(newpath)
+				files[id].name = newname;
 				// move all files what the folder includes to the new path
 				for (let i = 0; i < files.length; i++) {
-					if (files[i].path.startsWith(oldpathAndFilename) && files[i].status != 'delete') {
+					if (files[i].path.startsWith(oldpath) && files[i].status != 'delete') {
 						console.log('files[i].path, oldpath', files[i].path, oldpath)
 						console.log('replaced', oldpath, newpath, 'for', files[i].type, files[i].path + files[i].name)
 						files[i].path = files[i].path.replace(oldpath, newpath)
 					}
-					
 				}
-				getdata();
-				saveFileIndex();
 			}
-			console.log('files:', files)
+			getdata();
+			saveFileIndex();
+		}
+
+		function moveprompt(id) {
+			var newpath = prompt("Move to");
+			if (newpath) {
+				movefile(id, newpath)
+			}
+		}
+
+		function movefile(id, newpath) {
+			var oldpath = files[id].path
+			var oldpathAndFilename = files[id].path + files[id].name + '/'
+		
+			if (!newpath.startsWith("/")) {
+				newpath = currentPath + newpath;
+			}
+			if (!newpath.endsWith("/")) {
+				newpath = newpath + "/";
+			}
+			console.log('newpath, files[id]["name"]', newpath, files[id]["name"])
+			if (isFolderExist(newpath, files[id]["name"])) {
+				alert('This folder already exists!')
+				return
+			}
+			files[id]["path"] = newpath;
+			touchPathRecursive(newpath)
+			// move all files what the folder includes to the new path
+			for (let i = 0; i < files.length; i++) {
+				if (files[i].path.startsWith(oldpathAndFilename) && files[i].status != 'delete') {
+					console.log('files[i].path, oldpath', files[i].path, oldpath)
+					console.log('replaced', oldpath, newpath, 'for', files[i].type, files[i].path + files[i].name)
+					files[i].path = files[i].path.replace(oldpath, newpath)
+				}
+			}
+			getdata();
+			saveFileIndex();
 		}
 
 		// checks and creates folders recursively if they not exist
