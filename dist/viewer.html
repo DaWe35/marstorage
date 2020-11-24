@@ -18,10 +18,14 @@
 		video, audio, img {
 			max-width: 100%;
 		}
+		#content_container {
+			margin: 20px;
+		}
 	</style>
 </head>
 
 <body class="landing-page">
+	<div id="shareWarn" style="display: none; margin-top: 20px;">Sharing can not be reverted: if you share the encryption key, everyone can download the file with. Even if you move the file to your trash, it will be accessable on Skynet!</div>
 	<div class="show-if-logged-in" id="loading_status">Loading...</div>
 	<div class="show-if-logged-in" id="content_container"></div>
 	<div class="hide-if-logged-in" style="display: none;">Please log in to SkyID</div>
@@ -68,6 +72,8 @@
 	var opts = { 'devMode': devMode, 'onUploadProgress': progressCallback }
 	if (!isNumeric(fileidOrEncrypKey)) {
 		opts['customChildSeed'] = fileidOrEncrypKey
+		var shareWarn = document.getElementById('shareWarn')
+		shareWarn.style.display = 'block'
 	}
 	var skyid = new SkyID('Marstorage', skyidCallback, opts)
 	if (skyid.seed != '' || !isNumeric(fileidOrEncrypKey)) {
@@ -95,16 +101,17 @@
 				if (this.readyState == 4 && this.status == 200) {
 					display += `<pre>${this.responseText}</pre>`;
 					document.getElementById('content_container').innerHTML = display
-					
-					if (action == 'download') {
-						document.getElementById('dlbtn').click()
-					}
 				}
 			};
 			xhttp.open("GET", blob, true);
 			xhttp.send();
 		}
 		document.getElementById('content_container').innerHTML = display
+		console.log(action)
+		if (action == 'download') {
+			console.log('cl')
+			document.getElementById('dlbtn').click()
+		}
 	}
 
 
