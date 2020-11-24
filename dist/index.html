@@ -662,53 +662,6 @@
 			}
 			submit();
 		};
-
-
-		/*window.onload = function() {
-			var oldpath = "/s/";
-			var testpath = "/s/";
-			var testarray = new Array("/");
-			for(var i = 0; i<files.length; i++) {
-				if(files[i]["status"] !== "delete") {
-					if(files[i]["type"] === "Folder") {
-						testarray.push(files[i]["path"] + files[i]["name"] + "/");
-					}
-				}
-			}
-			console.log(testarray);
-			console.log(files);
-			if(testarray.indexOf(testpath) === -1){
-				for(var i = 0; i<testarray.length; i++) {
-					var splittestarray = testarray[i].split("/");
-					var splittestpath = testpath.split("/");
-					if (testarray[i].startsWith(testpath)){
-						console.log(testarray[i]);
-					}
-				}
-			}
-		}*/
-
-		/*window.onload = function() {
-			var oldpath = "/s/";
-			var testpath = "/f/";
-			var testarray = new Array("/");
-			for(var i = 0; i<files.length; i++) {
-				if(files[i]["status"] !== "delete") {
-					if(files[i]["type"] === "Folder") {
-						testarray.push(files[i]["path"] + files[i]["name"] + "/");
-					}
-				}
-			}
-			console.log(testarray);
-			console.log(files);
-			if(testarray.indexOf(testpath) === -1){
-				for(var i = 0; i<testarray.length; i++) {
-					if (testarray[i].startsWith(oldpath)){
-						console.log(testarray[i].replace(oldpath, testpath));
-					}
-				}
-			}
-		}*/
 		</script>
 		
 	</div>
@@ -716,7 +669,6 @@
 	<script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
 	<script src="assets/js/core/popper.min.js" type="text/javascript"></script>
 	<script src="assets/js/core/bootstrap.min.js" type="text/javascript"></script>
-	<!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
 	<script src="assets/js/script.min.js" type="text/javascript"></script>
 </body>
 
