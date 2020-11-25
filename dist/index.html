@@ -164,7 +164,7 @@
 		}
 
 		function progressCallback(msg) {
-			console.log(msg)
+			document.getElementById("uploadprogress").innerHTML = Math.round(msg * 100);
 		}
 		
 		if (window.location.hostname == 'mars.local' || window.location.hostname == 'localhost' || window.location.protocol == 'file:') {
@@ -355,13 +355,19 @@
 			if (uploadInputFiles.length-1 < fileIndex) {
 				document.removeEventListener("click",handler,true);
 				document.removeEventListener("mousedown",handler,true);
+				document.getElementById("uploadstatus").style.display = "none";
 				return
+			}else{
+				document.getElementById("uploadstatus").style.display = "initial";
+				document.getElementById("uploadallcount").innerHTML = uploadInputFiles.length;
 			}
 
 			var file = uploadInputFiles[fileIndex];
 			var filename = file["name"].split('.').slice(0, -1).join('.');
 			var filetype = file["name"].split('.').pop();
 			var length = files.length;
+			document.getElementById("uploadcurrentcount").innerHTML = fileIndex + 1;
+			document.getElementById("uploadname").innerHTML = file["name"];
 			skyid.uploadEncryptedFile(file, length, function(skylink) {
 				files[length] = {
 					name: filename,
@@ -698,6 +704,8 @@
 			e.preventDefault();
 		}
 		</script>
+		<style>#uploadstatus{display:none;color:#fff;font-family:inherit;background:#1ED660;padding:20px;position:fixed;bottom:10px;right:10px;width:100%;max-width:300px;box-shadow:0 10px 20px rgba(0,0,0,.2);border-radius:5px;margin:0px;z-index:1000000;box-sizing:border-box}#uploadstatus button{color:inherit;background:#3842c7;border:0;padding:10px;margin-top:10px;width:100%;cursor:pointer}@media only screen and (max-width:600px){#uploadstatus{max-width:100%;bottom:0;left:0;border-radius:0}}</style>
+		<p id="uploadstatus">Uploading <span id="uploadcurrentcount">0</span>/<span id="uploadallcount">0</span> file.<br><span id ="uploadname"></span> <span id ="uploadprogress">0</span>%</p>
 		
 	</div>
 	<!--   Core JS Files   -->
