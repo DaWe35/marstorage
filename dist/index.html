@@ -625,6 +625,9 @@
 			console.log('newpath, files[id]["name"]', newpath, files[id]["name"])
 			if (isFolderExist(newpath, files[id]["name"])) {
 				alert('This folder already exists!')
+				
+				document.removeEventListener("click",handler,true);
+				document.removeEventListener("mousedown",handler,true);
 				return
 			}
 			files[id]["path"] = newpath;
