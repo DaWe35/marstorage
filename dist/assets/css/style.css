@@ -1,3 +1,25 @@
+:root {
+  --bg-color: #171941;
+  --whiteblack: #fff;
+  --button-color: linear-gradient(to bottom left, #344675, #263148, #344675);
+  --footer-color: radial-gradient(ellipse at bottom, #292d61 30%, #171941 80%);
+  --footer-border: 2px solid #435db5;
+  --border-color: rgba(255, 255, 255, .1);
+  --table-text: rgba(255, 255, 255, .7);
+  --tree-text: inherit;
+}
+
+[data-theme="light"] {
+  --bg-color: #fff;
+  --whiteblack: #000;
+  --button-color: linear-gradient(#1ed660, #1ed660);
+  --footer-color: #1ed660;
+  --footer-border: #1ed660;
+  --border-color: #e3e3e3;
+  --table-text: #000;
+  --tree-text: #000;
+}
+
 @keyframes move-left-right {
 	0% {
 		transform: translateX(-10px)
@@ -76,11 +98,15 @@ body {
 	line-height: 1.5;
 	color: #fff;
 	text-align: left;
-	background-color: #171941
+	background-color: var(--bg-color)
 }
 
 [tabindex="-1"]:focus {
 	outline: 0!important
+}
+
+.tree-title{
+  color: var(--whiteblack);
 }
 
 h1,
@@ -128,13 +154,13 @@ a:hover {
 }
 
 a:not([href]):not([tabindex]) {
-	color: inherit;
+	color: var(--tree-text);
 	text-decoration: none
 }
 
 a:not([href]):not([tabindex]):focus,
 a:not([href]):not([tabindex]):hover {
-	color: inherit;
+	color: var(--tree-text);
 	text-decoration: none
 }
 
@@ -4936,7 +4962,7 @@ a.text-default:hover {
 }
 
 .text-white {
-	color: #fff!important
+	color: var(--whiteblack)!important
 }
 
 a.text-white:focus,
@@ -5105,7 +5131,7 @@ a.text-neutral:hover {
 	background-image: -webkit-linear-gradient(to bottom left, #344675, #263148, #344675);
 	background-image: -o-linear-gradient(to bottom left, #344675, #263148, #344675);
 	background-image: -moz-linear-gradient(to bottom left, #344675, #263148, #344675);
-	background-image: linear-gradient(to bottom left, #344675, #263148, #344675);
+	background-image: var(--button-color);
 	background-size: 210% 210%;
 	background-position: top right;
 	background-color: #344675;
@@ -5125,7 +5151,7 @@ a.text-neutral:hover {
 .navbar .navbar-nav>a.btn:focus,
 .navbar .navbar-nav>a.btn:hover {
 	background-color: #263148!important;
-	background-image: linear-gradient(to bottom left, #344675, #263148, #344675)!important;
+	background-image: var(--button-color)!important;
 	background-image: -webkit-linear-gradient(to bottom left, #344675, #263148, #344675)!important;
 	background-image: -o-linear-gradient(to bottom left, #344675, #263148, #344675)!important;
 	background-image: -moz-linear-gradient(to bottom left, #344675, #263148, #344675)!important;
@@ -5924,8 +5950,8 @@ a.text-neutral:hover {
 
 .footer {
 	padding: 50px 0;
-	border-top: 2px solid #435db5;
-	background: radial-gradient(ellipse at bottom, #292d61 30%, #171941 80%)
+	border-top: var(--footer-border);
+	background: var(--footer-color)
 }
 
 .footer [class*=container-] {
@@ -6066,7 +6092,7 @@ img {
 	position: relative;
 	padding-top: .3125rem;
 	padding-bottom: .3125rem;
-	color: #fff;
+	color: var(--whiteblack);
 	text-transform: capitalize;
 	font-size: 1rem
 }
@@ -6085,7 +6111,7 @@ img {
 }
 
 .navbar-nav li a {
-	color: #fff
+	color: var(--whiteblack);
 }
 
 .navbar-nav li i {
@@ -6581,7 +6607,7 @@ p {
 }
 
 ul li {
-	color: #fff
+	color: var(--whiteblack)
 }
 
 .icon {
@@ -6620,7 +6646,7 @@ ul li {
 }
 
 .table>tbody>tr>td {
-	color: rgba(255, 255, 255, .7)!important
+	color: var(--table-text)!important
 }
 
 .table>tbody>tr.table-success>td {
@@ -6668,7 +6694,7 @@ ul li {
 	text-transform: uppercase;
 	font-weight: 700;
 	border: 0;
-	color: #fff
+	color: var(--whiteblack)
 }
 
 .table .checkbox {
@@ -6692,7 +6718,7 @@ ul li {
 .table>tbody>tr>th,
 .table>thead>tr>td,
 .table>thead>tr>th {
-	border-color: rgba(255, 255, 255, .1);
+	border-color: var(--border-color);
 	padding: 12px 7px;
 	vertical-align: middle
 }
